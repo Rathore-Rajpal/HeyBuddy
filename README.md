@@ -4,7 +4,7 @@
 
 # Buddy: Virtual Mouse, Keyboard, and Assistant
 
-![Buddy Logo](link-to-your-logo-image)
+![Buddy Logo](https://github.com/Rathore-Rajpal/Virtual-Mouse-And-Keyboard/blob/main/assist/www/assets/img/favicon-32x32.png)
 
 ### **Version:** 1.0.0  
 **Author:** Rajpal Singh Rathore
