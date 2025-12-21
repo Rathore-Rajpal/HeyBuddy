@@ -12,18 +12,49 @@ def start():
     @eel.expose
     def init():
          #subprocess.call([r'device.bat'])
-         eel.hideLoader()
-         speak("Ready for face Authentication")
-         flag = recoganize.AuthenticateFace()
+         
+         # ============================================
+         # FACE AUTHENTICATION CONFIGURATION
+         # ============================================
+         # Set to True to enable face authentication on startup
+         # Set to False to skip face auth (for deployment/sharing)
+         # Note: Users must run setup_face_auth.bat to register their face
+         enable_face_auth = True
+         # ============================================
+         
+         import os
+         # Use absolute path since multiprocessing may change working directory
+         trainer_path = os.path.join(os.path.dirname(__file__), 'assist', 'Engine', 'auth', 'trainer', 'trainer.yml')
+         trainer_exists = os.path.exists(trainer_path)
+         
+         print(f"DEBUG: enable_face_auth={enable_face_auth}, trainer_exists={trainer_exists}")
+         print(f"DEBUG: Looking for trainer at: {trainer_path}")
+         
+         if enable_face_auth and trainer_exists:
+             print("Starting face authentication...")
+             speak("Ready for face Authentication")
+             flag = recoganize.AuthenticateFace()
+         else:
+             if not trainer_exists:
+                 print(f"Face authentication model not found at {trainer_path}. Skipping...")
+             else:
+                 print("Face authentication disabled in code")
+             flag = 0
+         
          if(flag == 1):
              eel.hideFaceAuth()
-             speak("Face autentication sucessfull")
+             speak("Face authentication successful")
              eel.hideFaceAuthSuccess()
-             speak("welcome to AI Assistant. I am your buddy..ready to help")
+             speak("Welcome to AI Assistant. I am your buddy, ready to help")
              eel.hideStart()
              playAssistantSound()
          else:
-             speak("Face autentication Failed")
+             # Skip face auth and proceed
+             speak("Welcome to AI Assistant. I am your buddy, ready to help")
+             eel.hideFaceAuth()
+             eel.hideFaceAuthSuccess()
+             eel.hideStart()
+             playAssistantSound()
         
    
 
@@ -32,3 +63,6 @@ def start():
 
     # Start the Eel server and ensure block is passed as a boolean
     eel.start('index.html', mode=None, host='localhost', port=8000, block=True)
+
+if __name__ == '__main__':
+    start()

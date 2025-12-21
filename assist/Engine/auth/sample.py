@@ -18,7 +18,8 @@ while True:
 
     ret, img = cam.read() #read the frames using the above created object
     converted_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) #The function converts an input image from one color space to another
-    faces = detector.detectMultiScale(converted_image, 1.3, 5)
+    converted_image = cv2.equalizeHist(converted_image)  # Improve contrast for better detection
+    faces = detector.detectMultiScale(converted_image, scaleFactor=1.2, minNeighbors=5, minSize=(30, 30))
 
     for (x,y,w,h) in faces:
 
@@ -28,8 +29,12 @@ while True:
         
         cv2.imwrite("assist\\Engine\\auth\\samples\\face." + str(face_id) + '.' + str(count) + ".jpg", converted_image[y:y+h,x:x+w])
         # To capture & Save images into the datasets folder
+        
+        # Add text overlay showing progress
+        cv2.putText(img, f"Captured: {count}/100", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+        cv2.putText(img, "Press ESC to stop", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
 
-        cv2.imshow('image', img) #Used to display an image in a window
+        cv2.imshow('Capturing Face Samples', img) #Used to display an image in a window
 
     k = cv2.waitKey(100) & 0xff # Waits for a pressed key
     if k == 27: # Press 'ESC' to stop

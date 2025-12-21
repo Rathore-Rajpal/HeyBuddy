@@ -36,17 +36,17 @@ cursor = conn.cursor()
 
 @eel.expose
 def playAssistantSound():
-    mis_dir = "C:\\VirtualMouseProject\\assist\\www\\assets\\audio\\start_sound.mp3"
+    mis_dir = os.path.join(os.path.dirname(__file__), "..", "www", "assets", "audio", "start_sound.mp3")
     playsound(mis_dir)
 
 @eel.expose
 def playMicSound():
-    mis_dir = "C:\\VirtualMouseProject\\assist\\www\\assets\\audio\\mic_sound.wav"
+    mis_dir = os.path.join(os.path.dirname(__file__), "..", "www", "assets", "audio", "mic_sound.wav")
     playsound(mis_dir)
     
 @eel.expose
 def playChatSound():
-    mis_dir = "C:\\VirtualMouseProject\\assist\\www\\assets\\audio\\chat_sound.wav"
+    mis_dir = os.path.join(os.path.dirname(__file__), "..", "www", "assets", "audio", "chat_sound.wav")
     playsound(mis_dir)
 
 def openCommand(query):
@@ -98,52 +98,6 @@ def SearchYoutube(query):
     search_url = f"https://www.youtube.com/results?search_query={search_term}"
     speak(f"searching for {search_term} on youtube")
     webbrowser.open(search_url)
-    
-def hotword():
-    porcupine = None
-    pa = None
-    audio_stream = None
-
-    try:
-        access_key = "nm2uZzRWhxQ1MxyzsIGhOOkROeGh2WTdGQmdkOBtlaq4b9trt0YENQ=="
-        keyword_path = "C:\\VirtualMouseProject\\hey-buddy_en_windows_v3_0_0\\hey-buddy_en_windows_v3_0_0.ppn"
-
-        porcupine = pvporcupine.create(
-            access_key=access_key,
-            keyword_paths=[keyword_path],
-            sensitivities=[0.5]
-        )
-
-        pa = pyaudio.PyAudio()
-        audio_stream = pa.open(
-            rate=porcupine.sample_rate,
-            channels=1,
-            format=pyaudio.paInt16,
-            input=True,
-            frames_per_buffer=porcupine.frame_length
-        )
-
-        print("Listening for 'buddy'...")
-
-        while True:
-            pcm = audio_stream.read(porcupine.frame_length, exception_on_overflow=False)
-            pcm = struct.unpack_from("h" * porcupine.frame_length, pcm)
-            result = porcupine.process(pcm)
-            
-            if result >= 0:
-                print("Hotword detected!")
-                autogui.hotkey('alt', 'j')  # Simplified key combination
-                time.sleep(1)
-
-    except Exception as e:
-        print("Error:", e)
-    finally:
-        if porcupine:
-            porcupine.delete()
-        if audio_stream:
-            audio_stream.close()
-        if pa:
-            pa.terminate()
 
 
 #Find Contacts
@@ -307,7 +261,8 @@ def take_note(note):
 def caputure_screenshot():
     time.sleep(2)
     autogui.hotkey('win','down')
-    folder_path = 'C:\\VirtualMouseProject\\Screeshots'
+    folder_path = os.path.join(os.getcwd(), 'Screeshots')
+    os.makedirs(folder_path, exist_ok=True)
     time.sleep(1)
     img = autogui.screenshot()
     time.sleep(1)

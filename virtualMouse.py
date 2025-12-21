@@ -160,7 +160,8 @@ def detect_gestures(frame, landmarks_list, processed):
 
             # Screenshot
             elif functions.is_screenshot(landmarks_list, thumb_index_dist):
-                folder_path = 'C:\VirtualMouseProject\Screeshots'
+                folder_path = os.path.join(os.getcwd(), 'Screeshots')
+                os.makedirs(folder_path, exist_ok=True)
                 im1 = pyautogui.screenshot()
                 label = random.randint(1, 1000)
                 im1.save(os.path.join(folder_path, f'my_screenshot_{label}.png'))

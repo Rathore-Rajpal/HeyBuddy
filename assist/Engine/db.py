@@ -1,5 +1,6 @@
-import csv
+
 import sqlite3
+import eel
 
 conn = sqlite3.connect("buddy.db")
 cursor = conn.cursor()
@@ -50,6 +51,28 @@ cursor = conn.cursor()
 #conn.commit()
 #conn.close()
 
+@eel.expose
+def submit_contact(names, nos, emails):
+    print("Data received:", names, nos, emails)  # Debug line
+    try:
+        if not names or not nos:
+            return {'success': False, 'error': 'Name and mobile number are required'}
+
+        cursor = conn.cursor()
+        cursor.execute('''INSERT INTO contacts (name, mobile_no, email)
+                          VALUES (?, ?, ?)''', (names, nos, emails))
+        conn.commit()
+        return {'success': True}
+    
+    except sqlite3.Error as e:
+        return {'success': False, 'error': str(e)}
+    
+    # DO NOT CLOSE THE CONNECTION HERE (remove finally block)
+
+# Start Eel
+if __name__ == "__main__":
+    eel.init('web')  # Folder containing your HTML/JS files
+    eel.start('index.html')  # Your main HTML file
 
 
 

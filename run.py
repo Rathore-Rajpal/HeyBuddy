@@ -11,11 +11,11 @@ def startjarvis():
 
 def listenHotWord():
     # Code for process 2
-    print("Process 2 is running")
+    #print("Process 2 is running")
     try:
         from assist.Engine.features import hotword
-        print("Running hotword detection...")
-        hotword()
+        #print("Running hotword detection...")
+        #hotword()
     except Exception as e:
         print(f"Error in hotword detection: {e}")
 

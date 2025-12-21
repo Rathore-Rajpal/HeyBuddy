@@ -4,6 +4,6 @@ from plyer import notification
 
 notification.notify(
     title="Reminder",
-    message="demo reminder",
+    message="is a demo reminder",
     timeout=10
 )

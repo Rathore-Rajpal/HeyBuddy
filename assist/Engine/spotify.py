@@ -9,8 +9,9 @@ import pyautogui
 import time
 import psutil
 
-# Load environment variables from .env file
-load_dotenv()
+# Load environment variables from .env file in root directory
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+load_dotenv(os.path.join(root_dir, ".env"))
 
 client_id = os.getenv("CLIENT_ID")
 client_sec = os.getenv("CLIENT_SECRET")

@@ -7,8 +7,9 @@ from PIL import Image
 from io import BytesIO
 import base64
 
-# Load environment variables from .env file
-load_dotenv()
+# Load environment variables from .env file in root directory
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+load_dotenv(os.path.join(root_dir, ".env"))
 
 # API configuration
 API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"

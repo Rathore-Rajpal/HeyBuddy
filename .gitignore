@@ -1,5 +1,29 @@
+# Virtual Environment
 /envjarvis
+
+# Environment Variables (contains API keys and secrets)
+.env
+
+# User Data
 contacts.csv
 jarvis.db
-assist/Engine/__pycache__
+buddy.db
+
+# Session Cookies (HuggingFace authentication)
 assist/Engine/cookies.json
+
+# Python Cache
+assist/Engine/__pycache__
+__pycache__/
+*.pyc
+*.pyo
+
+# Screenshots
+Screeshots/
+
+# Face Recognition Training Data
+assist/Engine/auth/samples/
+assist/Engine/auth/trainer/trainer.yml
+
+# Generated Images
+assist/Engine/Data/

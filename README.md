@@ -1,106 +1,196 @@
+# Virtual Assistant "Buddy" - Complete AI System
 
+A comprehensive AI assistant combining gesture-based controls and voice commands.
 
----
-
-# Buddy: Virtual Mouse, Keyboard, and Assistant
-
-![Buddy Logo](https://github.com/Rathore-Rajpal/Virtual-Mouse-And-Keyboard/blob/main/assist/www/assets/img/favicon-32x32.png)
-
-### **Version:** 1.0.0  
-**Author:** Rajpal Singh Rathore
-
-## Project Overview
-
-**Buddy** is an all-in-one virtual assistant that revolutionizes user interaction with computers. It combines gesture-based mouse and keyboard control with a smart virtual assistant to perform tasks through voice commands. Buddy is designed to enhance user productivity by automating routine tasks and providing AI-powered support.
+## Author
+Rajpal Singh
 
 ## Features
 
-### 1. **Virtual Mouse & Keyboard**
-- **Gesture-Based Control:** Control mouse and keyboard with hand gestures using OpenCV and a hand detection algorithm.
-- **No Physical Devices Required:** Perform common tasks like clicking, typing, and dragging with simple hand movements.
+### 🎯 Core Components
+1. **Virtual Mouse** - Hand gesture-based mouse control
+2. **Virtual Keyboard** - On-screen keyboard with gesture typing
+3. **Voice Assistant "Buddy"** - AI-powered voice commands
 
-### 2. **Face Authentication**
-Buddy includes a **Face Authentication** feature, adding an extra layer of security to the system. This feature uses facial recognition technology to authenticate the user before allowing access to certain functions of the assistant or system.
+### 🤖 Assistant Capabilities
+- ✅ Face authentication
+- ✅ Voice command recognition
+- ✅ Spotify integration (play music, search artists)
+- ✅ YouTube control (play videos, search)
+- ✅ WhatsApp automation (messages, calls)
+- ✅ Phone integration (calls, SMS via Phone Link)
+- ✅ Email composition (Gmail)
+- ✅ Web search (Google, product search on 20+ sites)
+- ✅ Note taking (Sticky Notes, file-based)
+- ✅ Reminders (Windows Task Scheduler)
+- ✅ Screenshots
+- ✅ AI chatbot (HuggingChat)
+- ✅ Code generation
+- ✅ Image generation (Stable Diffusion)
+- ✅ Google Maps routes
 
-- **Easy Setup:** Configure face authentication with a simple registration process.
-- **Seamless Experience:** Once set up, the system will automatically verify the user’s identity during activation.
+### 🖱️ Virtual Mouse Gestures
+| Gesture | Action |
+|---------|--------|
+| Index finger movement | Move cursor |
+| Index finger bent + middle straight | Left click |
+| Middle finger bent + index straight | Right click |
+| Both fingers bent (thumb far) | Double click |
+| Both fingers bent (thumb close) | Screenshot |
+| Thumb + index touching + move up/down | Scroll |
+| Thumb + pinky touching | Drawing mode |
+| Thumb + ring finger (1 sec) | Close window |
+| Thumb + middle finger (1 sec) | Minimize window |
 
-### 3. **Buddy Virtual Assistant**
-Buddy is a voice-controlled assistant that understands user queries and performs a variety of tasks, including:
-- **Application Management:** Open and close local applications.
-- **Web Automation:** Open web applications and perform searches on Google, YouTube, and specific e-commerce websites.
-- **WhatsApp Automation:** Send messages, make calls, and video calls.
-- **Spotify Integration:** Play music, search for artists, and control playback on Spotify.
-- **AI-Based Features:**
-  - **Buddy CodeMaster:** Automatically write Python code based on user queries.
-  - **Buddy ImageMaster:** Generate AI-powered images based on prompts.
-- **Navigation and Location Services:** Find the shortest distance between two locations.
-- **Email Automation:** Compose and send emails via Gmail with voice commands.
-- **Reminder and Note Management:** Set reminders and take notes.
-- **Voice Typing:** Type using voice commands with automatic speech-to-text conversion.
+## 🚀 Quick Start
 
-### 4. **Hotword Detection**
-Buddy activates with a custom hotword, listening in the background for commands. It’s designed to respond immediately once triggered.
+### Prerequisites
+- Windows 10/11
+- Python 3.8 or higher
+- Webcam
+- Microphone
+- Internet connection
 
-### 5. **Multiprocessing Support**
-To ensure efficient performance, Buddy uses multiprocessing, allowing the virtual assistant and hotword detection to work simultaneously without interruptions.
+### Installation
 
-## Technologies Used
-
-- **Programming Language:** Python
-- **Libraries:**
-  - **OpenCV:** For gesture detection and face authentication.
-  - **SpeechRecognition:** For converting voice commands into text.
-  - **Eel:** For building the web interface.
-  - **Multiprocessing:** For handling multiple processes.
-  - **SMTP Library:** For email automation.
-  - **Spotify API:** For music integration.
-  - **Google Maps API:** For navigation and route management.
-- **Web Technologies:** HTML, CSS, JavaScript (for the web interface).
-
-## Installation
-
-### Prerequisites:
-- Python 3.x
-- OpenCV
-- Eel
-- SpeechRecognition
-- PyAudio
-- Spotify API key
-- Gmail API setup
-
-### Steps to Install:
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/buddy-virtual-assistant.git
+1. **Clone or download this repository**
    ```
-2. Install the required Python libraries:
-   ```bash
-   pip install -r requirements.txt
+   cd C:\VirtualMouseProject
    ```
-3. Run the project:
-   ```bash
+
+2. **Run setup script**
+   ```
+   setup.bat
+   ```
+   This will:
+   - Create virtual environment
+   - Install all dependencies
+   - Verify installation
+
+3. **Configure API keys (Optional)**
+   Create a `.env` file in the project root:
+   ```
+   CLIENT_ID=your_spotify_client_id
+   CLIENT_SECRET=your_spotify_client_secret
+   HuggingFaceApiKey=your_huggingface_api_key
+   ```
+
+4. **Test components**
+   ```
+   python test_components.py
+   ```
+
+5. **Launch the assistant**
+   ```
+   start.bat
+   ```
+   Or directly:
+   ```
    python run.py
    ```
 
-## How to Use
+## 📖 Usage
 
-1. **Virtual Mouse & Keyboard:** Start the hand detection system and control your PC with gestures.
-2. **Buddy Assistant:** Trigger Buddy with the hotword or by running the assistant script. Give voice commands to perform tasks like opening applications, sending messages, or generating AI-based images.
-3. **Buddy CodeMaster & ImageMaster:** Ask Buddy to write Python code or generate images using a simple voice command like, “Write a Python code to sort an array” or “Generate an image of a sunset.”
-4. **Face Authentication:** Ensure the face authentication is enabled for secure access. Buddy will prompt for facial recognition during activation.
+### Starting the Assistant
+1. Run `start.bat`
+2. Complete face authentication when prompted
+3. Wait for "Ready to help" confirmation
+4. Use voice commands or click the mic button
+5. Press `Alt + J` for quick voice activation
 
-## Upcoming Features
+### Voice Command Examples
+- "Open YouTube"
+- "Play Despacito on YouTube"
+- "Search for laptop on Amazon"
+- "Send a message to [contact name] on WhatsApp"
+- "Set a reminder for tomorrow at 3 PM to call mom"
+- "Take a screenshot"
+- "Generate an image of a sunset over mountains"
+- "Write a code to sort a list in Python"
+- "What's the weather like?"
 
-- **Enhanced Language Support:** Adding support for multiple languages.
-- **AI Chat Integration:** Advanced conversation handling with GPT-based models.
-- **Deeper App Integrations:** Expanding automation for additional applications like Zoom, Slack, and others.
+### Launching Virtual Mouse/Keyboard
+- Voice: "Start virtual mouse" / "Start virtual keyboard"
+- Or use Flask API endpoints (if running app.py)
 
-## Contributing
+## 🛠️ Troubleshooting
 
-If you'd like to contribute to Buddy, please submit a pull request with a detailed description of your changes.
+### Camera not working
+- Check if camera is being used by another application
+- Grant camera permissions to Python
 
-## License
+### Voice recognition not responding
+- Check microphone permissions
+- Ensure internet connection (uses Google Speech API)
+- Adjust `r.pause_threshold` in commands.py if needed
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+### Face authentication fails
+- Ensure good lighting
+- Train your face using `assist/Engine/auth/sample.py`
+- Run `assist/Engine/auth/trainer.py` to generate trainer.yml
+
+### Module not found errors
+- Activate virtual environment: `envjarvis\Scripts\activate`
+- Reinstall: `pip install -r requirements.txt`
+
+### Spotify not working
+- Get API credentials from https://developer.spotify.com
+- Add to .env file
+
+## 📁 Project Structure
+```
+VirtualMouseProject/
+├── run.py              # Main launcher (multiprocessing)
+├── main.py             # Assistant initialization
+├── app.py              # Flask API server
+├── virtualMouse.py     # Gesture-based mouse
+├── virtual_ketboard.py # Gesture-based keyboard
+├── requirements.txt    # Dependencies
+├── setup.bat           # Installation script
+├── start.bat           # Launch script
+├── test_components.py  # Component testing
+├── assist/
+│   ├── Engine/
+│   │   ├── commands.py      # Command handler
+│   │   ├── features.py      # Feature implementations
+│   │   ├── config.py        # Configuration
+│   │   ├── db.py            # Database operations
+│   │   ├── spotify.py       # Spotify integration
+│   │   ├── auth/            # Face authentication
+│   │   ├── ImageBot/        # Image generation UI
+│   │   └── CodingBuddy/     # Code assistant UI
+│   └── www/                 # Web interface
+│       ├── index.html
+│       ├── main.js
+│       └── style.css
+└── envjarvis/          # Virtual environment
+```
+
+## 🔧 Development
+
+### Adding new voice commands
+Edit `assist/Engine/commands.py` and add to `allCommands()` function
+
+### Adding new contacts
+Use the web UI contact form or edit database directly
+
+### Training face recognition
+1. Run `assist/Engine/auth/sample.py` to capture face samples
+2. Run `assist/Engine/auth/trainer.py` to train the model
+
+## 📝 License
+This project is open source and available for educational purposes.
+
+## 🤝 Contributing
+Contributions, issues, and feature requests are welcome!
+
+## ⚠️ Important Notes
+- Some features require API keys (Spotify, HuggingFace)
+- WhatsApp automation may require WhatsApp Desktop app
+- Phone features require Windows Phone Link app
+- Face authentication model needs to be trained with your face
+
+## 📞 Support
+For issues or questions, please create an issue in the repository.
+
 

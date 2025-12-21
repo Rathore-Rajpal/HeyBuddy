@@ -104,11 +104,12 @@ def allCommands(message=1):
                     query = takecommand()
                     print(f"Message to send: {query}")
                 
+                elif "video call" in query:
+                    flag = 'video call'
+                    
                 elif "phone call" in query or "call" in query or "voice call" in query:
                     flag = 'call'
                 
-                elif "video call" in query:
-                    flag = 'video call'
                 
                 print(f"Calling whatsApp() with number: {contact_no}, message: {query}, flag: {flag}, name: {name}")
                 whatsApp(contact_no, query, flag, name)
@@ -180,7 +181,7 @@ def allCommands(message=1):
             else:
                 speak("Sorry, I couldn't understand the date and time. Please try again.")
                 
-        elif ("send a email" in query or "send email" in query or "send a mail" in query or "send an email" in query or "draft a mail" in query):
+        elif ("send a email" in query or "send email" in query or "send a mail" in query or "send an email" in query or "draft a mail" in query or "write an emai" in query or "write a mail" in query):
             from assist.Engine.features import send_email
             send_email(query)
             

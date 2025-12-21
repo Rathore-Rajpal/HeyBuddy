@@ -63,6 +63,9 @@ $(document).ready(function () {
 
         $("#FaceAuth").attr("hidden", true);
         $("#FaceAuthSuccess").attr("hidden", false);
+        
+        // Hide only the Loader, not the entire Start section yet
+        $("#Loader").hide();
 
     }
     // Hide success and display 
@@ -71,6 +74,8 @@ $(document).ready(function () {
 
         $("#FaceAuthSuccess").attr("hidden", true);
         $("#HelloGreet").attr("hidden", false);
+        
+        // Still hide only the Loader, keep Start section visible for HelloGreet
 
     }
 
@@ -79,15 +84,15 @@ $(document).ready(function () {
     eel.expose(hideStart)
     function hideStart() {
 
-        $("#Start").attr("hidden", true);
-
+        // Now we can safely hide the entire Start section
+        $("#Start").hide();
+        $("#HelloGreet").attr("hidden", true);
+        
+        // Show the main oval with animation
         setTimeout(function () {
             $("#oval").addClass("animate__animated animate__zoomIn");
-
-        }, 1000)
-        setTimeout(function () {
             $("#oval").attr("hidden", false);
-        }, 1000)
+        }, 100);
     }
 
     eel.expose(toggleEmailSection);
