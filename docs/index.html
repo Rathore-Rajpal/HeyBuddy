@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Buddy - AI Virtual Assistant with Gesture Control & Voice Commands">
+    <meta name="keywords" content="AI, Virtual Assistant, Gesture Control, Voice Commands, Python, OpenCV">
+    <meta name="author" content="Rajpal Singh Rathore">
+    <title>Buddy - AI Virtual Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: #fff;
+            color: #667eea;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .features {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin: 40px 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 50px;
+            color: #667eea;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #764ba2;
+        }
+
+        .feature-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature-card li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .feature-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .installation {
+            background: #2d3748;
+            color: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin: 40px 0;
+        }
+
+        .installation h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+
+        .steps {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .step {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .step h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        code {
+            background: rgba(0,0,0,0.3);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .demo-section {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .demo-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #667eea;
+        }
+
+        .video-placeholder {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 400px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: white;
+        }
+
+        .stat-label {
+            font-size: 1.2em;
+            color: rgba(255,255,255,0.8);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Buddy</h1>
+            <p>Your Intelligent Desktop Companion</p>
+            <p>Gesture Control • Voice Commands • AI-Powered Features</p>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">30+</div>
+                    <div class="stat-label">Voice Commands</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Hand Gestures</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">AI</div>
+                    <div class="stat-label">Powered</div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <a href="https://github.com/Rathore-Rajpal/HeyBuddy" class="btn btn-primary">View on GitHub</a>
+                <a href="#installation" class="btn btn-secondary">Get Started</a>
+            </div>
+        </header>
+
+        <section class="features">
+            <h2>✨ Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🖱️ Virtual Mouse</h3>
+                    <ul>
+                        <li>Control cursor with hand gestures</li>
+                        <li>Left/Right click with finger bends</li>
+                        <li>Scroll, drag, and draw</li>
+                        <li>Screenshot with gestures</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🗣️ Voice Assistant</h3>
+                    <ul>
+                        <li>Wake word detection</li>
+                        <li>Natural language commands</li>
+                        <li>30+ built-in commands</li>
+                        <li>Continuous listening mode</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎭 Face Authentication</h3>
+                    <ul>
+                        <li>Secure login with face</li>
+                        <li>OpenCV LBPH recognition</li>
+                        <li>Easy training process</li>
+                        <li>High accuracy</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎵 Spotify Integration</h3>
+                    <ul>
+                        <li>Play songs by voice</li>
+                        <li>Search artists</li>
+                        <li>Control playback</li>
+                        <li>Queue management</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎨 AI Image Generation</h3>
+                    <ul>
+                        <li>Text-to-image with Stable Diffusion</li>
+                        <li>HuggingFace integration</li>
+                        <li>High-quality outputs</li>
+                        <li>Voice-activated</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>💻 Code Generation</h3>
+                    <ul>
+                        <li>AI-powered code writing</li>
+                        <li>Python code generation</li>
+                        <li>Natural language prompts</li>
+                        <li>StarCoder model</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>📱 Phone Integration</h3>
+                    <ul>
+                        <li>Make calls via Phone Link</li>
+                        <li>Send SMS messages</li>
+                        <li>WhatsApp automation</li>
+                        <li>Voice-activated calls</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>📧 Email Automation</h3>
+                    <ul>
+                        <li>Compose emails by voice</li>
+                        <li>Gmail integration</li>
+                        <li>Contact management</li>
+                        <li>Quick send commands</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🌐 Web Automation</h3>
+                    <ul>
+                        <li>Google search</li>
+                        <li>YouTube control</li>
+                        <li>Product search (20+ sites)</li>
+                        <li>Google Maps navigation</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="demo-section">
+            <h2>🎥 See It In Action</h2>
+            <div class="video-placeholder">
+                📹 Demo Video Coming Soon
+            </div>
+            <p style="color: #666; font-size: 1.1em;">Watch how Buddy transforms your desktop experience</p>
+        </section>
+
+        <section class="installation" id="installation">
+            <h2>🚀 Installation</h2>
+            <div class="steps">
+                <div class="step">
+                    <h3>Step 1: Clone Repository</h3>
+                    <p>Download or clone the project from GitHub</p>
+                    <code>git clone https://github.com/Rathore-Rajpal/HeyBuddy.git</code>
+                </div>
+
+                <div class="step">
+                    <h3>Step 2: Run Setup</h3>
+                    <p>Install dependencies automatically</p>
+                    <code>.\setup.bat</code>
+                </div>
+
+                <div class="step">
+                    <h3>Step 3: Configure API Keys</h3>
+                    <p>Set up Spotify and HuggingFace credentials</p>
+                    <code>copy .env.example .env</code>
+                    <p style="margin-top: 10px;">Then edit <code>.env</code> with your keys</p>
+                </div>
+
+                <div class="step">
+                    <h3>Step 4: Setup Face Auth (Optional)</h3>
+                    <p>Train face recognition with your face</p>
+                    <code>.\setup_face_auth.bat</code>
+                </div>
+
+                <div class="step">
+                    <h3>Step 5: Launch!</h3>
+                    <p>Start the assistant</p>
+                    <code>.\LAUNCH_BUDDY.bat</code>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 Rajpal Singh Rathore. Made with ❤️</p>
+            <p>
+                <a href="https://github.com/Rathore-Rajpal/HeyBuddy">GitHub</a> • 
+                <a href="https://github.com/Rathore-Rajpal/HeyBuddy/blob/main/README.md">Documentation</a> •
+                <a href="https://github.com/Rathore-Rajpal/HeyBuddy/issues">Report Issue</a>
+            </p>
+            <p style="margin-top: 20px;">⭐ Star on GitHub if you find it useful!</p>
+        </footer>
+    </div>
+</body>
+</html>
