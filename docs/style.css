@@ -1,625 +1,436 @@
-/* ============================================
-   DARK THEME STYLES - BUDDY AI ASSISTANT
-   ============================================ */
-
-:root {
-    --primary-blue: #00AAFF;
-    --primary-purple: #B803F0;
-    --dark-bg: #000000;
-    --dark-card: #0d0d0d;
-    --dark-border: #1a1a1a;
-    --text-white: #ffffff;
-    --text-muted: #a0a0a0;
-    --gradient-1: linear-gradient(135deg, #00AAFF, #B803F0);
-    --gradient-2: linear-gradient(45deg, #00AAFF, #00FF88);
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* =============================================
+   BUDDY AI ASSISTANT - GITHUB PAGES
+   Using same styling as main app
+   ============================================= */
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--dark-bg);
-    color: var(--text-white);
+    background-color: black;
     overflow-x: hidden;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 html {
     scroll-behavior: smooth;
 }
 
-/* ============================================
-   NAVIGATION
-   ============================================ */
-.navbar {
-    background: rgba(0, 0, 0, 0.95) !important;
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--dark-border);
-    padding: 1rem 0;
-}
-
-.navbar-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
-    background: var(--gradient-1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.navbar-brand i {
-    -webkit-text-fill-color: var(--primary-blue);
-}
-
-.nav-link {
-    color: var(--text-white) !important;
-    margin: 0 0.5rem;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background: var(--gradient-1);
-    transition: all 0.3s ease;
-    transform: translateX(-50%);
-}
-
-.nav-link:hover::after {
-    width: 80%;
-}
-
-/* ============================================
-   HERO SECTION
-   ============================================ */
-.hero-section {
-    position: relative;
-    min-height: 100vh;
-    padding: 80px 0;
-    overflow: hidden;
-}
-
-.animated-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-}
-
-.floating-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(60px);
-    opacity: 0.3;
-    animation: float 20s infinite ease-in-out;
-}
-
-.orb-1 {
-    width: 400px;
-    height: 400px;
-    background: var(--primary-blue);
-    top: 10%;
-    left: -10%;
-    animation-delay: 0s;
-}
-
-.orb-2 {
-    width: 350px;
-    height: 350px;
-    background: var(--primary-purple);
-    bottom: 10%;
-    right: -10%;
-    animation-delay: -7s;
-}
-
-.orb-3 {
-    width: 300px;
-    height: 300px;
-    background: #00FF88;
-    top: 50%;
-    left: 50%;
-    animation-delay: -14s;
-}
-
-@keyframes float {
-    0%, 100% {
-        transform: translate(0, 0) scale(1);
-    }
-    33% {
-        transform: translate(50px, -50px) scale(1.1);
-    }
-    66% {
-        transform: translate(-50px, 50px) scale(0.9);
-    }
-}
-
-.hero-section .container {
-    position: relative;
-    z-index: 1;
-}
-
-.gradient-text {
-    background: var(--gradient-1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.lead {
-    color: var(--text-muted);
-    font-size: 1.25rem;
-}
-
-/* ============================================
-   VOICE VISUALIZATION
-   ============================================ */
-.voice-visual-container {
-    background: rgba(13, 13, 13, 0.5);
-    border: 1px solid var(--dark-border);
-    border-radius: 15px;
-    padding: 20px;
-    backdrop-filter: blur(10px);
-}
-
-#siriwave {
-    width: 100%;
-    height: 100px;
-    display: block;
-}
-
-.pulse-icon {
-    color: var(--primary-blue);
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.5;
-        transform: scale(1.1);
-    }
-}
-
-/* ============================================
-   STATS ROW
-   ============================================ */
-.stats-row {
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
-}
-
-.stat-item {
-    flex: 1;
-    min-width: 100px;
-}
-
-.stat-number {
-    font-size: 2.5rem;
-    font-weight: bold;
-    background: var(--gradient-1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 0.5rem;
-}
-
-.stat-label {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* ============================================
-   BUTTONS
-   ============================================ */
-.btn-group-custom {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.btn-primary-custom {
-    background: var(--gradient-1);
-    border: none;
-    color: white;
-    padding: 12px 30px;
-    border-radius: 50px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 170, 255, 0.4);
-}
-
-.btn-primary-custom:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 170, 255, 0.6);
-    color: white;
-}
-
-.btn-outline-custom {
-    background: transparent;
-    border: 2px solid var(--primary-blue);
-    color: var(--primary-blue);
-    padding: 10px 28px;
-    border-radius: 50px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.btn-outline-custom:hover {
-    background: var(--primary-blue);
-    color: white;
-    transform: translateY(-2px);
-}
-
-/* ============================================
-   SVG ANIMATION
-   ============================================ */
+/* =============================================
+   ANIMATED SVG LOADER (From Main App)
+   ============================================= */
 .svg-frame {
+    position: relative;
+    width: 455px;
+    height: 455px;
+    transform-style: preserve-3d;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
+    animation: change-view 2s ease-in infinite;
 }
 
-.rotating-svg {
-    width: 100%;
-    max-width: 460px;
-    animation: rotate 20s linear infinite;
+@keyframes change-view {
+    0%, 50% {
+        transform: rotate(-0deg) skew(00deg) translateX(calc(0 * var(--i))) translateY(calc(-0px * var(--i)));
+    }
+    70%, 100% {
+        transform: rotate(-80deg) skew(30deg) translateX(calc(45px * var(--i))) translateY(calc(-35px * var(--i)));
+    }
+}
+
+svg {
+    position: absolute;
+    transition: 0.5s;
+    transform-origin: center;
+    width: 450px;
+    height: 450px;
+    fill: none;
+    animation: change-view 5s ease-in-out infinite alternate;
+    filter: drop-shadow(0 0 12px #00aaff);
+}
+
+#big-centro,
+#outter1,
+#solo-lines,
+#center,
+#outter-center,
+#bottom-dots,
+#center-lines,
+#squares,
+#top-dots {
+    transform-origin: center;
+    animation: rotate 4s ease-in-out infinite alternate;
+}
+
+#big-centro {
+    animation-delay: -1.5s;
+}
+
+#outter1 {
+    animation-delay: -1.2s;
+}
+
+#center {
+    animation-delay: -2.2s;
+}
+
+#bottom-dots,
+#top-dots {
+    animation-duration: 7s;
+}
+
+#center-lines,
+#outter-center {
+    animation-duration: 6s;
+    animation-delay: -3s;
 }
 
 @keyframes rotate {
-    from {
-        transform: rotate(0deg);
-    }
     to {
         transform: rotate(360deg);
     }
 }
 
-.animate-path {
-    animation: dash 3s linear infinite;
-}
-
-@keyframes dash {
-    to {
-        stroke-dashoffset: -400;
-    }
-}
-
-/* ============================================
-   FEATURES SECTION
-   ============================================ */
-.features-section {
-    padding: 100px 0;
-    background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
-}
-
-.section-header h2 {
-    margin-bottom: 1rem;
-}
-
-.feature-card {
-    background: var(--dark-card);
-    border: 1px solid var(--dark-border);
-    border-radius: 20px;
-    padding: 2rem;
-    height: 100%;
-    transition: all 0.3s ease;
+/* =============================================
+   OVAL SECTION (Animated Circles)
+   ============================================= */
+.square {
     position: relative;
-    overflow: hidden;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.feature-card::before {
-    content: '';
+.square span:nth-child(1),
+.square span:nth-child(2),
+.square span:nth-child(3) {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--gradient-1);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 0;
+    background-image: radial-gradient(#6b72ff00 50%, #0003ff3b 40%);
+    box-shadow: 0 0 50px rgb(25, 0, 255), inset 0 0 50px rgb(25, 0, 255);
+    border-radius: 38% 62% 63% 37% / 41% 44%;
+    transition: 0.5s;
 }
 
-.feature-card:hover::before {
-    opacity: 0.05;
+.square span:nth-child(1) {
+    animation: animate1 6s linear infinite;
 }
 
-.feature-card:hover {
-    transform: translateY(-10px);
-    border-color: var(--primary-blue);
-    box-shadow: 0 10px 30px rgba(0, 170, 255, 0.3);
+.square span:nth-child(2) {
+    animation: animate2 4s linear infinite;
 }
 
-.feature-card > * {
-    position: relative;
-    z-index: 1;
+.square span:nth-child(3) {
+    animation: animate3 8s linear infinite;
+    box-shadow: 0 0 50px rgb(25, 0, 255), inset 0 0 50px rgb(184, 3, 240);
 }
 
-.feature-icon {
-    width: 70px;
-    height: 70px;
-    background: var(--gradient-1);
+@keyframes animate1 {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes animate2 {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes animate3 {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* =============================================
+   BUTTONS
+   ============================================= */
+.btn-explore,
+.btn-download,
+.btn-download-large,
+.btn-github-large,
+.btn-github-small {
+    border-radius: 50px;
+    padding: 12px 35px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-explore {
+    background: transparent;
+    border: 2px solid #00AAFF;
+    color: #00AAFF;
+}
+
+.btn-explore:hover {
+    background: #00AAFF;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 170, 255, 0.4);
+}
+
+.btn-download,
+.btn-download-large {
+    background: linear-gradient(90deg, #00AAFF 0%, #B803F0 100%);
+    border: none;
+    color: white;
+}
+
+.btn-download:hover,
+.btn-download-large:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 170, 255, 0.5);
+    color: white;
+}
+
+.btn-github-large,
+.btn-github-small {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+.btn-github-large:hover,
+.btn-github-small:hover {
+    background: white;
+    color: black;
+    transform: translateY(-2px);
+}
+
+/* =============================================
+   FEATURE BOXES
+   ============================================= */
+.feature-box {
+    background: rgba(13, 13, 13, 0.8);
+    border: 1px solid rgba(0, 170, 255, 0.2);
     border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1.5rem;
-    font-size: 2rem;
+    padding: 30px;
+    transition: all 0.3s ease;
+    height: 100%;
 }
 
-.feature-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+.feature-box:hover {
+    transform: translateY(-10px);
+    border-color: #00AAFF;
+    box-shadow: 0 10px 30px rgba(0, 170, 255, 0.3);
+    background: rgba(0, 170, 255, 0.05);
 }
 
-.feature-list {
-    list-style: none;
-    padding: 0;
+.feature-box i {
+    transition: transform 0.3s ease;
 }
 
-.feature-list li {
-    padding: 0.5rem 0;
-    color: var(--text-muted);
+.feature-box:hover i {
+    transform: scale(1.1);
 }
 
-.feature-list i {
-    color: var(--primary-blue);
-    margin-right: 0.5rem;
-}
-
-/* ============================================
-   GALLERY SECTION
-   ============================================ */
-.gallery-section {
-    padding: 100px 0;
-    background: #000000;
-}
-
-.carousel {
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.screenshot-placeholder {
-    background: var(--dark-card);
-    border: 2px solid var(--dark-border);
-    border-radius: 20px;
-    padding: 80px 40px;
-    text-align: center;
-    min-height: 500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.screenshot-placeholder i {
-    color: var(--primary-blue);
-    opacity: 0.3;
-}
-
-.screenshot-placeholder h3 {
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-}
-
-.screenshot-placeholder p {
-    color: var(--text-muted);
-}
-
-.carousel-control-prev,
-.carousel-control-next {
-    width: 50px;
-    height: 50px;
-    background: var(--dark-card);
-    border: 1px solid var(--dark-border);
-    border-radius: 50%;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 1;
-}
-
-.carousel-control-prev {
-    left: -80px;
-}
-
-.carousel-control-next {
-    right: -80px;
-}
-
-.carousel-control-prev:hover,
-.carousel-control-next:hover {
-    background: var(--primary-blue);
-    border-color: var(--primary-blue);
-}
-
-.carousel-indicators button {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: var(--primary-blue);
-}
-
-/* ============================================
+/* =============================================
    DOWNLOAD SECTION
-   ============================================ */
-.download-section {
-    padding: 100px 0;
-    background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+   ============================================= */
+.download-container {
+    padding: 50px 0;
 }
 
-.download-card {
-    background: var(--dark-card);
-    border: 1px solid var(--dark-border);
+.download-box {
+    background: rgba(13, 13, 13, 0.9);
+    border: 1px solid rgba(0, 170, 255, 0.3);
     border-radius: 20px;
-    overflow: hidden;
-}
-
-.download-header {
-    background: var(--gradient-1);
-    padding: 2rem;
-    text-align: center;
-}
-
-.download-header h3 {
-    margin: 0;
-    font-size: 2rem;
-}
-
-.download-body {
-    padding: 2rem;
-}
-
-.install-method {
-    margin-bottom: 2rem;
-}
-
-.install-method h5 {
-    margin-bottom: 1rem;
-    color: var(--primary-blue);
+    padding: 40px;
+    margin-top: 30px;
 }
 
 .code-block {
     background: #0a0a0a;
-    border: 1px solid var(--dark-border);
+    border: 1px solid rgba(0, 170, 255, 0.2);
     border-radius: 10px;
-    padding: 1rem;
+    padding: 20px;
     position: relative;
     font-family: 'Courier New', monospace;
+    margin: 20px 0;
 }
 
 .code-block code {
-    color: var(--primary-blue);
-    font-size: 0.95rem;
+    color: #00AAFF;
+    font-size: 1.1rem;
 }
 
 .copy-btn {
     position: absolute;
-    right: 10px;
-    top: 10px;
-    background: var(--dark-card);
-    border: 1px solid var(--dark-border);
-    color: var(--text-white);
-    padding: 0.5rem 1rem;
+    right: 15px;
+    top: 15px;
+    background: rgba(0, 170, 255, 0.1);
+    border: 1px solid #00AAFF;
+    color: #00AAFF;
+    padding: 8px 15px;
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .copy-btn:hover {
-    background: var(--primary-blue);
-    border-color: var(--primary-blue);
+    background: #00AAFF;
+    color: white;
 }
 
-.setup-steps {
-    background: #0a0a0a;
-    border: 1px solid var(--dark-border);
-    border-radius: 10px;
-    padding: 1.5rem;
+/* =============================================
+   SETUP INSTRUCTIONS
+   ============================================= */
+.setup-instructions {
+    background: rgba(13, 13, 13, 0.6);
+    border: 1px solid rgba(184, 3, 240, 0.2);
+    border-radius: 20px;
+    padding: 40px;
 }
 
-.setup-list {
-    padding-left: 1.5rem;
-    color: var(--text-muted);
+.setup-step {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 170, 255, 0.2);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    transition: all 0.3s ease;
 }
 
-.setup-list li {
-    padding: 0.5rem 0;
+.setup-step:hover {
+    border-color: #00AAFF;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 170, 255, 0.3);
 }
 
-.setup-list code {
-    background: var(--dark-card);
-    padding: 0.2rem 0.6rem;
-    border-radius: 5px;
-    color: var(--primary-blue);
-}
-
-.download-footer {
-    padding: 1.5rem 2rem;
-    background: #0a0a0a;
-    border-top: 1px solid var(--dark-border);
+.step-number {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #00AAFF, #B803F0);
+    border-radius: 50%;
     display: flex;
-    gap: 1rem;
+    align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0 auto 15px;
 }
 
-/* ============================================
+.setup-step code {
+    background: rgba(0, 170, 255, 0.1);
+    padding: 3px 8px;
+    border-radius: 5px;
+    color: #00AAFF;
+}
+
+/* =============================================
+   CANVAS ANIMATION
+   ============================================= */
+#canvasOne {
+    z-index: 0;
+}
+
+#jarvisHood {
+    position: relative;
+    z-index: 1;
+}
+
+/* =============================================
+   SECTIONS
+   ============================================= */
+section {
+    min-height: 100vh;
+    padding: 50px 0;
+}
+
+#Start {
+    position: relative;
+    overflow: hidden;
+}
+
+#oval {
+    background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+}
+
+#download {
+    background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
+}
+
+/* =============================================
+   TEXT ANIMATIONS
+   ============================================= */
+.text {
+    position: relative;
+    animation: fadeInUp 1s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =============================================
    FOOTER
-   ============================================ */
-.footer {
-    background: #000000;
-    border-top: 1px solid var(--dark-border);
+   ============================================= */
+footer {
+    border-top: 1px solid rgba(0, 170, 255, 0.2);
+    padding: 30px 0;
 }
 
-.footer p {
-    margin: 0;
-}
-
-.footer .text-muted {
-    color: var(--text-muted) !important;
-}
-
-/* ============================================
-   RESPONSIVE DESIGN
-   ============================================ */
-@media (max-width: 991px) {
-    .stats-row {
-        justify-content: center;
-    }
-    
-    .btn-group-custom {
-        justify-content: center;
-    }
-    
-    .svg-frame {
-        margin-top: 2rem;
-    }
-}
-
+/* =============================================
+   RESPONSIVE
+   ============================================= */
 @media (max-width: 768px) {
-    .display-3 {
-        font-size: 2.5rem;
+    .svg-frame {
+        width: 300px;
+        height: 300px;
     }
     
-    .display-4 {
-        font-size: 2rem;
+    svg {
+        width: 300px;
+        height: 300px;
     }
     
-    .carousel-control-prev,
-    .carousel-control-next {
-        display: none;
+    .square {
+        width: 300px;
+        height: 300px;
     }
     
-    .stat-item {
-        min-width: 80px;
+    h1 {
+        font-size: 2.5rem !important;
     }
     
-    .stat-number {
-        font-size: 2rem;
+    .btn-explore,
+    .btn-download {
+        display: block;
+        margin: 10px auto !important;
+        width: 80%;
+    }
+    
+    .code-block code {
+        font-size: 0.9rem;
     }
 }
 
-/* ============================================
-   UTILITIES
-   ============================================ */
-.text-muted {
-    color: var(--text-muted) !important;
+/* =============================================
+   SCROLLBAR STYLING
+   ============================================= */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #00AAFF, #B803F0);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #B803F0, #00AAFF);
 }
