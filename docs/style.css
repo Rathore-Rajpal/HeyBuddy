@@ -357,6 +357,113 @@ svg[style*="--i:1"] {
 }
 
 /* =============================================
+   SCREENSHOTS SECTION
+   ============================================= */
+.screenshots-section {
+    padding: 100px 0;
+    background: radial-gradient(circle at center, rgba(0, 170, 255, 0.05), transparent 70%);
+}
+
+#screenshotsCarousel {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 170, 255, 0.2);
+    border: 1px solid var(--dark-border);
+    background: var(--dark-card);
+}
+
+.carousel-inner {
+    border-radius: 20px;
+}
+
+.carousel-item {
+    transition: transform 0.6s ease-in-out;
+}
+
+.carousel-item img {
+    border-radius: 20px;
+    object-fit: contain;
+    background: #000;
+    max-height: 600px;
+    width: 100%;
+}
+
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 1rem 2rem;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    right: auto;
+}
+
+.carousel-caption h5 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 1;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 3rem;
+    height: 3rem;
+    background-color: rgba(0, 170, 255, 0.3);
+    border-radius: 50%;
+    padding: 1rem;
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--primary-blue);
+    transition: all 0.3s ease;
+}
+
+.carousel-control-prev:hover .carousel-control-prev-icon,
+.carousel-control-next:hover .carousel-control-next-icon {
+    background-color: var(--primary-blue);
+    transform: scale(1.1);
+}
+
+.carousel-indicators {
+    margin-bottom: 1rem;
+}
+
+.carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: 0 5px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.carousel-indicators button.active {
+    background-color: var(--primary-blue);
+    border-color: var(--primary-blue);
+    transform: scale(1.2);
+}
+
+.carousel-indicators button:hover {
+    background-color: rgba(0, 170, 255, 0.5);
+}
+
+/* =============================================
    FEATURES SECTION
    ============================================= */
 .features-section {

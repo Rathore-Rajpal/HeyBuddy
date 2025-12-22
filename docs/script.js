@@ -17,6 +17,9 @@ $(document).ready(function() {
     
     // Scroll animations
     handleScrollAnimations();
+    
+    // Initialize Screenshots Carousel
+    initCarousel();
 });
 
 // =============================================
@@ -244,6 +247,31 @@ $('.feature-card').hover(
         $(this).find('.feature-icon').removeClass('animate__animated animate__pulse');
     }
 );
+
+// =============================================
+// SCREENSHOTS CAROUSEL
+// =============================================
+function initCarousel() {
+    const carousel = document.getElementById('screenshotsCarousel');
+    if (!carousel) return;
+    
+    // Initialize Bootstrap carousel with auto-play
+    const bsCarousel = new bootstrap.Carousel(carousel, {
+        interval: 5000,  // Auto-play every 5 seconds
+        wrap: true,      // Loop through slides
+        keyboard: true,  // Allow keyboard controls
+        pause: 'hover'   // Pause on hover
+    });
+    
+    // Add keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') {
+            bsCarousel.prev();
+        } else if (e.key === 'ArrowRight') {
+            bsCarousel.next();
+        }
+    });
+}
 
 // =============================================
 // CONSOLE MESSAGE
