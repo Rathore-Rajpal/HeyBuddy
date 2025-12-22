@@ -5,7 +5,7 @@ cam.set(3, 640) # set video FrameWidth
 cam.set(4, 480) # set video FrameHeight
 
 
-detector = cv2.CascadeClassifier('assist\\Engine\\auth\haarcascade_frontalface_default.xml')
+detector = cv2.CascadeClassifier('assist\\Engine\\auth\\haarcascade_frontalface_default.xml')
 #Haar Cascade classifier is an effective object detection approach
 
 face_id = input("Enter a Numeric user ID  here:  ")

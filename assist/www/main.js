@@ -124,6 +124,48 @@ $(document).ready(function () {
         // You can now pass these values to your Python backend
         eel.processEmailDetails(name, email, subject);
     });
+
+    // Settings Panel Handlers
+    $("#SettingsBtn").click(function () {
+        // Load current face auth status
+        eel.getFaceAuthStatus()(function(status) {
+            $("#faceAuthToggle").prop('checked', status);
+        });
+    });
+
+    // Face Auth Toggle
+    $("#faceAuthToggle").change(function () {
+        const isEnabled = $(this).is(':checked');
+        eel.setFaceAuthStatus(isEnabled);
+    });
+
+    // Setup Face Recognition Button
+    $("#setupFaceBtn").click(function () {
+        eel.launchFaceSetup();
+        const toast = new bootstrap.Toast(document.getElementById('responseToast'));
+        document.querySelector('.toast-body').innerText = 'Launching Face Setup Wizard...';
+        toast.show();
+    });
+
+    // Test Face Auth Button
+    $("#testFaceBtn").click(function () {
+        eel.testFaceAuth()(function(result) {
+            const toast = new bootstrap.Toast(document.getElementById('responseToast'));
+            document.querySelector('.toast-body').innerText = result;
+            toast.show();
+        });
+    });
+
+    // Reset Settings Button
+    $("#resetSettingsBtn").click(function () {
+        if (confirm('Are you sure you want to reset all settings to default?')) {
+            eel.resetSettings();
+            $("#faceAuthToggle").prop('checked', true);
+            const toast = new bootstrap.Toast(document.getElementById('responseToast'));
+            document.querySelector('.toast-body').innerText = 'Settings reset to default!';
+            toast.show();
+        }
+    });
     
     
 

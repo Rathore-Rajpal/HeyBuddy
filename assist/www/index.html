@@ -306,7 +306,8 @@
                                 <button id="ChatBtn" class="glow-on-hover" data-bs-toggle="offcanvas"
                                     data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i
                                         class="bi bi-chat-dots"></i></button>
-                                <button id="SettingsBtn" class="glow-on-hover"><i class="bi bi-gear-fill"></i></button>
+                                <button id="SettingsBtn" class="glow-on-hover" data-bs-toggle="offcanvas"
+                                    data-bs-target="#settingsSection" aria-controls="settingsSection"><i class="bi bi-gear-fill"></i></button>
                             </div>
 
                         </div>
@@ -327,6 +328,53 @@
                                 <button id="GoBackBtn" class="btn btn-primary mt-4">Go Back</button>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings Panel -->
+        <section id="settingsSection" class="offcanvas offcanvas-end settings-canvas" tabindex="-1"
+            aria-labelledby="settingsSectionLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="settingsSectionLabel"><i class="bi bi-gear-fill"></i> Settings</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="card mt-2 bg-dark text-light">
+                    <div class="card-header text-center">
+                        <h5>Authentication Settings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3 d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6><i class="bi bi-person-lock"></i> Face Authentication</h6>
+                                <small class="text-muted">Enable secure login with facial recognition</small>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="faceAuthToggle" checked>
+                            </div>
+                        </div>
+                        <div class="alert alert-info" role="alert">
+                            <small><i class="bi bi-info-circle"></i> Changes will take effect on next restart</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mt-3 bg-dark text-light">
+                    <div class="card-header text-center">
+                        <h5>Quick Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-outline-primary w-100 mb-2" id="setupFaceBtn">
+                            <i class="bi bi-camera-fill"></i> Setup Face Recognition
+                        </button>
+                        <button class="btn btn-outline-success w-100 mb-2" id="testFaceBtn">
+                            <i class="bi bi-check-circle"></i> Test Face Auth
+                        </button>
+                        <button class="btn btn-outline-warning w-100" id="resetSettingsBtn">
+                            <i class="bi bi-arrow-clockwise"></i> Reset to Default
+                        </button>
                     </div>
                 </div>
             </div>

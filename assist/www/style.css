@@ -390,6 +390,104 @@ svg {
 }
 
 /*Email End*/
+
+/*Settings Panel Start*/
+
+.settings-canvas {
+    background-color: #0d0d0d;
+    background-image: linear-gradient(135deg, #000000 0%, #1a1a2e 50%, #0d0d0d 100%);
+    box-shadow: -5px 0 15px rgba(0, 170, 255, 0.3);
+}
+
+.settings-canvas .offcanvas-header {
+    border-bottom: 2px solid rgba(0, 170, 255, 0.3);
+    padding: 1rem 1.5rem;
+    background: rgba(0, 170, 255, 0.1);
+    margin-top: 0;
+}
+
+.settings-canvas .offcanvas-title {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #00AAFF;
+    text-shadow: 0 2px 8px rgba(0, 170, 255, 0.5);
+}
+
+.settings-canvas .offcanvas-body {
+    padding: 1.5rem;
+}
+
+.settings-canvas .card {
+    background: rgba(13, 17, 23, 0.9);
+    border: 1px solid rgba(0, 170, 255, 0.2);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 170, 255, 0.1);
+    overflow: visible;
+}
+
+.settings-canvas .card-header {
+    background: linear-gradient(90deg, #00AAFF 0%, #B803F0 100%);
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px 12px 0 0;
+}
+
+.settings-canvas .card-header h5 {
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    margin: 0;
+}
+
+.settings-canvas .form-check-input {
+    width: 3rem;
+    height: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(0, 170, 255, 0.3);
+    cursor: pointer;
+}
+
+.settings-canvas .form-check-input:checked {
+    background-color: #00AAFF;
+    border-color: #00AAFF;
+    box-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+}
+
+.settings-canvas .btn-outline-primary,
+.settings-canvas .btn-outline-success,
+.settings-canvas .btn-outline-warning {
+    border-width: 2px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.settings-canvas .btn-outline-primary:hover {
+    background: #00AAFF;
+    box-shadow: 0 4px 15px rgba(0, 170, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+.settings-canvas .btn-outline-success:hover {
+    background: #28a745;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+    transform: translateY(-2px);
+}
+
+.settings-canvas .btn-outline-warning:hover {
+    background: #ffc107;
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+    transform: translateY(-2px);
+}
+
+.settings-canvas .alert-info {
+    background: rgba(0, 170, 255, 0.1);
+    border: 1px solid rgba(0, 170, 255, 0.3);
+    color: #00AAFF;
+}
+
+/*Settings Panel End*/
+
 .code-canvas {
     background: #2d2d2d;
     color: #ccc;
