@@ -654,6 +654,48 @@ svg[style*="--i:1"] {
     background: #000000;
 }
 
+.social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    margin: 0 10px;
+    border-radius: 50%;
+    background: var(--dark-card);
+    border: 2px solid var(--dark-border);
+    color: white;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.social-icon:hover {
+    transform: translateY(-5px);
+    color: white;
+    box-shadow: 0 10px 30px rgba(0, 170, 255, 0.3);
+}
+
+.social-icon:nth-child(1):hover {
+    border-color: #fff;
+    background: #333;
+}
+
+.social-icon:nth-child(2):hover {
+    border-color: #0077B5;
+    background: linear-gradient(135deg, #0077B5, #00A0DC);
+}
+
+.social-icon:nth-child(3):hover {
+    border-color: #E4405F;
+    background: linear-gradient(135deg, #F58529, #DD2A7B, #8134AF);
+}
+
+.social-icon:nth-child(4):hover {
+    border-color: var(--primary-blue);
+    background: var(--gradient-1);
+}
+
 /* =============================================
    RESPONSIVE
    ============================================= */
