@@ -18,6 +18,34 @@ $(document).ready(function() {
         }
     });
 
+    // Initialize SiriWave
+    if (document.getElementById('siri-container')) {
+        var siriWave = new SiriWave({
+            container: document.getElementById('siri-container'),
+            width: 880,
+            height: 200,
+            style: 'ios9',
+            amplitude: 1,
+            speed: 0.30,
+            autoStart: true,
+            color: '#00AAFF'
+        });
+    }
+
+    // Siri message animation
+    $('.siri-message').textillate({
+        loop: true,
+        sync: true,
+        in: {
+            effect: "fadeIn",
+            delay: 50
+        },
+        out: {
+            effect: "fadeOut",
+            delay: 50
+        }
+    });
+
     // Smooth scroll for anchor links
     $('a[href^="#"]').on('click', function(e) {
         const href = $(this).attr('href');
@@ -35,10 +63,15 @@ $(document).ready(function() {
     // Canvas animation (similar to main app)
     initCanvas();
 
-    // Hide Start section after delay and show oval
+    // Hide Start section after delay and show oval, then SiriWave
     setTimeout(function() {
         $('#Start').fadeOut(1000, function() {
             $('#oval').fadeIn(1000);
+            setTimeout(function() {
+                $('#oval').fadeOut(1000, function() {
+                    $('#siriwave').fadeIn(1000);
+                });
+            }, 5000);
         });
     }, 4000);
 });
