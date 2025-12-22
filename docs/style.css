@@ -1,98 +1,251 @@
 /* =============================================
-   BUDDY AI ASSISTANT - GITHUB PAGES
-   Using same styling as main app
+   PROFESSIONAL UI - BUDDY AI ASSISTANT
    ============================================= */
 
-body {
-    background-color: black;
-    overflow-x: hidden;
-    color: white;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+:root {
+    --primary-blue: #00AAFF;
+    --primary-purple: #B803F0;
+    --primary-green: #00FF88;
+    --dark-bg: #000000;
+    --dark-card: #0d0d0d;
+    --dark-border: #1a1a1a;
+    --gradient-1: linear-gradient(135deg, #00AAFF, #B803F0);
+    --gradient-2: linear-gradient(45deg, #00AAFF, #00FF88);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 html {
     scroll-behavior: smooth;
 }
 
+body {
+    background-color: var(--dark-bg);
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+}
+
 /* =============================================
-   ANIMATED SVG LOADER (From Main App)
+   NAVIGATION
    ============================================= */
+.navbar {
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--dark-border);
+    padding: 1rem 0;
+    transition: all 0.3s ease;
+}
+
+.navbar-scrolled {
+    box-shadow: 0 2px 10px rgba(0, 170, 255, 0.1);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.brand-text {
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    margin: 0 0.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-1);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 80%;
+}
+
+/* =============================================
+   HERO SECTION
+   ============================================= */
+.hero-section {
+    min-height: 100vh;
+    padding: 100px 0 50px;
+    position: relative;
+    background: radial-gradient(circle at top right, rgba(0, 170, 255, 0.1), transparent 50%),
+                radial-gradient(circle at bottom left, rgba(184, 3, 240, 0.1), transparent 50%);
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.gradient-text {
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+}
+
+.stats-row {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    justify-content: flex-start;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-item h3 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.stat-item p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* =============================================
+   SVG ANIMATION
+   ============================================= */
+.svg-frame-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .svg-frame {
     position: relative;
-    width: 455px;
-    height: 455px;
+    width: 450px;
+    height: 450px;
     transform-style: preserve-3d;
     display: flex;
     justify-content: center;
     align-items: center;
-    animation: change-view 2s ease-in infinite;
-}
-
-@keyframes change-view {
-    0%, 50% {
-        transform: rotate(-0deg) skew(00deg) translateX(calc(0 * var(--i))) translateY(calc(-0px * var(--i)));
-    }
-    70%, 100% {
-        transform: rotate(-80deg) skew(30deg) translateX(calc(45px * var(--i))) translateY(calc(-35px * var(--i)));
-    }
 }
 
 svg {
     position: absolute;
-    transition: 0.5s;
-    transform-origin: center;
     width: 450px;
     height: 450px;
     fill: none;
-    animation: change-view 5s ease-in-out infinite alternate;
-    filter: drop-shadow(0 0 12px #00aaff);
+    animation: rotate 30s linear infinite;
+    filter: drop-shadow(0 0 15px rgba(0, 170, 255, 0.6));
+}
+
+svg[style*="--i:1"] {
+    animation-duration: 20s;
+    animation-direction: reverse;
 }
 
 #big-centro,
-#outter1,
-#solo-lines,
-#center,
-#outter-center,
 #bottom-dots,
-#center-lines,
-#squares,
-#top-dots {
+#top-dots,
+#squares {
     transform-origin: center;
-    animation: rotate 4s ease-in-out infinite alternate;
-}
-
-#big-centro {
-    animation-delay: -1.5s;
-}
-
-#outter1 {
-    animation-delay: -1.2s;
-}
-
-#center {
-    animation-delay: -2.2s;
-}
-
-#bottom-dots,
-#top-dots {
-    animation-duration: 7s;
-}
-
-#center-lines,
-#outter-center {
-    animation-duration: 6s;
-    animation-delay: -3s;
 }
 
 @keyframes rotate {
-    to {
-        transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
 }
 
 /* =============================================
-   OVAL SECTION (Animated Circles)
+   BUTTONS
    ============================================= */
+.btn-primary-custom,
+.btn-download {
+    background: var(--gradient-1);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 170, 255, 0.4);
+}
+
+.btn-primary-custom:hover,
+.btn-download:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 170, 255, 0.6);
+    color: white;
+}
+
+.btn-outline-custom,
+.btn-github {
+    background: transparent;
+    border: 2px solid var(--primary-blue);
+    color: var(--primary-blue);
+    padding: 10px 28px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-custom:hover,
+.btn-github:hover {
+    background: var(--primary-blue);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* =============================================
+   DEMO SECTION
+   ============================================= */
+.demo-section {
+    padding: 100px 0;
+    background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+}
+
+.demo-animation {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 500px;
+}
+
+#canvasOne {
+    position: absolute;
+    z-index: 0;
+}
+
+.oval-container {
+    position: relative;
+    z-index: 1;
+}
+
 .square {
     position: relative;
     width: 400px;
@@ -102,178 +255,232 @@ svg {
     align-items: center;
 }
 
-.square span:nth-child(1),
-.square span:nth-child(2),
-.square span:nth-child(3) {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: radial-gradient(#6b72ff00 50%, #0003ff3b 40%);
-    box-shadow: 0 0 50px rgb(25, 0, 255), inset 0 0 50px rgb(25, 0, 255);
-    border-radius: 38% 62% 63% 37% / 41% 44%;
-    transition: 0.5s;
-}
-
-.square span:nth-child(1) {
-    animation: animate1 6s linear infinite;
-}
-
-.square span:nth-child(2) {
-    animation: animate2 4s linear infinite;
-    box-shadow: 0 0 50px rgb(0, 255, 136), inset 0 0 50px rgb(0, 255, 136);
-}
-
-.square span:nth-child(3) {
-    animation: animate3 8s linear infinite;
-    box-shadow: 0 0 50px rgb(184, 3, 240), inset 0 0 50px rgb(184, 3, 240);
-    background-image: radial-gradient(rgba(184, 3, 240, 0.3) 50%, rgba(184, 3, 240, 0.1) 40%);
-}
-
-/* Inner ball/circle visible */
 .square::before {
     content: '';
     position: absolute;
     width: 100px;
     height: 100px;
-    background: radial-gradient(circle, rgba(0, 170, 255, 0.8) 0%, rgba(184, 3, 240, 0.4) 100%);
+    background: radial-gradient(circle, rgba(0, 170, 255, 0.9) 0%, rgba(184, 3, 240, 0.5) 100%);
     border-radius: 50%;
-    box-shadow: 0 0 30px rgba(0, 170, 255, 0.8), inset 0 0 20px rgba(184, 3, 240, 0.6);
+    box-shadow: 0 0 40px rgba(0, 170, 255, 1), inset 0 0 30px rgba(184, 3, 240, 0.8);
     z-index: 10;
-    animation: pulse 2s ease-in-out infinite;
+    animation: pulse 3s ease-in-out infinite;
 }
 
 @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.1); opacity: 0.8; }
+    0%, 100% { 
+        transform: scale(1); 
+        opacity: 1;
+        box-shadow: 0 0 40px rgba(0, 170, 255, 1), inset 0 0 30px rgba(184, 3, 240, 0.8);
+    }
+    50% { 
+        transform: scale(1.15); 
+        opacity: 0.8;
+        box-shadow: 0 0 60px rgba(0, 170, 255, 1), inset 0 0 40px rgba(184, 3, 240, 1);
+    }
 }
 
-@keyframes animate1 {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.square span {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 38% 62% 63% 37% / 41% 44%;
+    transition: 0.5s;
 }
 
-@keyframes animate2 {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.square span:nth-child(1) {
+    background-image: radial-gradient(transparent 50%, rgba(0, 170, 255, 0.2) 40%);
+    box-shadow: 0 0 50px var(--primary-blue), inset 0 0 50px var(--primary-blue);
+    animation: rotate-oval 6s linear infinite;
 }
 
-@keyframes animate3 {
+.square span:nth-child(2) {
+    background-image: radial-gradient(transparent 50%, rgba(0, 255, 136, 0.2) 40%);
+    box-shadow: 0 0 50px var(--primary-green), inset 0 0 50px var(--primary-green);
+    animation: rotate-oval 4s linear infinite;
+}
+
+.square span:nth-child(3) {
+    background-image: radial-gradient(transparent 50%, rgba(184, 3, 240, 0.3) 40%);
+    box-shadow: 0 0 50px var(--primary-purple), inset 0 0 50px var(--primary-purple);
+    animation: rotate-oval 8s linear infinite;
+}
+
+@keyframes rotate-oval {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
 /* =============================================
-   BUTTONS
+   SIRIWAVE
    ============================================= */
-.btn-explore,
-.btn-download,
-.btn-download-large,
-.btn-github-large,
-.btn-github-small {
-    border-radius: 50px;
-    padding: 12px 35px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.btn-explore {
-    background: transparent;
-    border: 2px solid #00AAFF;
-    color: #00AAFF;
-}
-
-.btn-explore:hover {
-    background: #00AAFF;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 170, 255, 0.4);
-}
-
-.btn-download,
-.btn-download-large {
-    background: linear-gradient(90deg, #00AAFF 0%, #B803F0 100%);
-    border: none;
-    color: white;
-}
-
-.btn-download:hover,
-.btn-download-large:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(0, 170, 255, 0.5);
-    color: white;
-}
-
-.btn-github-large,
-.btn-github-small {
-    background: transparent;
-    border: 2px solid white;
-    color: white;
-}
-
-.btn-github-large:hover,
-.btn-github-small:hover {
-    background: white;
-    color: black;
-    transform: translateY(-2px);
-}
-
-/* =============================================
-   FEATURE BOXES
-   ============================================= */
-.feature-box {
+.siriwave-box {
     background: rgba(13, 13, 13, 0.8);
     border: 1px solid rgba(0, 170, 255, 0.2);
+    border-radius: 20px;
+    padding: 40px;
+}
+
+#siri-container {
+    height: 200px;
     border-radius: 15px;
-    padding: 30px;
-    transition: all 0.3s ease;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+}
+
+.pulse-icon {
+    color: var(--primary-blue);
+    animation: icon-pulse 2s infinite;
+}
+
+@keyframes icon-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* =============================================
+   SECTIONS
+   ============================================= */
+.section-header {
+    margin-bottom: 4rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* =============================================
+   FEATURES SECTION
+   ============================================= */
+.features-section {
+    padding: 100px 0;
+    background: #000000;
+}
+
+.feature-card {
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    border-radius: 20px;
+    padding: 2.5rem;
     height: 100%;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
-.feature-box:hover {
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.feature-card:hover::before {
+    opacity: 0.05;
+}
+
+.feature-card:hover {
     transform: translateY(-10px);
-    border-color: #00AAFF;
+    border-color: var(--primary-blue);
     box-shadow: 0 10px 30px rgba(0, 170, 255, 0.3);
-    background: rgba(0, 170, 255, 0.05);
 }
 
-.feature-box i {
+.feature-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--gradient-1);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
     transition: transform 0.3s ease;
 }
 
-.feature-box:hover i {
-    transform: scale(1.1);
+.spotify-icon {
+    background: linear-gradient(135deg, #1DB954, #1ed760);
+}
+
+.feature-card:hover .feature-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.feature-card p {
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
 }
 
 /* =============================================
    DOWNLOAD SECTION
    ============================================= */
-.download-container {
-    padding: 50px 0;
+.download-section {
+    padding: 100px 0;
+    background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
 }
 
-.download-box {
-    background: rgba(13, 13, 13, 0.9);
-    border: 1px solid rgba(0, 170, 255, 0.3);
+.download-card {
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
     border-radius: 20px;
-    padding: 40px;
-    margin-top: 30px;
+    overflow: hidden;
+}
+
+.download-header {
+    background: var(--gradient-1);
+    padding: 2rem;
+    text-align: center;
+}
+
+.download-header h3 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.download-header p {
+    margin: 0.5rem 0 0;
+    opacity: 0.9;
+}
+
+.download-body {
+    padding: 2.5rem;
 }
 
 .code-block {
     background: #0a0a0a;
-    border: 1px solid rgba(0, 170, 255, 0.2);
+    border: 1px solid var(--dark-border);
     border-radius: 10px;
-    padding: 20px;
+    padding: 1.5rem;
     position: relative;
     font-family: 'Courier New', monospace;
-    margin: 20px 0;
+    margin-bottom: 2rem;
 }
 
 .code-block code {
-    color: #00AAFF;
+    color: var(--primary-blue);
     font-size: 1.1rem;
 }
 
@@ -282,8 +489,8 @@ svg {
     right: 15px;
     top: 15px;
     background: rgba(0, 170, 255, 0.1);
-    border: 1px solid #00AAFF;
-    color: #00AAFF;
+    border: 1px solid var(--primary-blue);
+    color: var(--primary-blue);
     padding: 8px 15px;
     border-radius: 5px;
     cursor: pointer;
@@ -291,189 +498,96 @@ svg {
 }
 
 .copy-btn:hover {
-    background: #00AAFF;
+    background: var(--primary-blue);
     color: white;
 }
 
-/* =============================================
-   SETUP INSTRUCTIONS
-   ============================================= */
-.setup-instructions {
-    background: rgba(13, 13, 13, 0.6);
-    border: 1px solid rgba(184, 3, 240, 0.2);
-    border-radius: 20px;
-    padding: 40px;
-}
-
-.setup-step {
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(0, 170, 255, 0.2);
-    border-radius: 15px;
-    padding: 25px;
-    text-align: center;
-    transition: all 0.3s ease;
-}
-
-.setup-step:hover {
-    border-color: #00AAFF;
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 170, 255, 0.3);
-}
-
-.step-number {
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, #00AAFF, #B803F0);
-    border-radius: 50%;
+.download-buttons {
     display: flex;
-    align-items: center;
+    gap: 1rem;
     justify-content: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin: 0 auto 15px;
+    flex-wrap: wrap;
 }
 
-.setup-step code {
+.setup-steps {
+    background: #0a0a0a;
+    border: 1px solid var(--dark-border);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.setup-steps h4 {
+    margin-bottom: 1rem;
+}
+
+.setup-steps ol {
+    color: rgba(255, 255, 255, 0.8);
+    padding-left: 1.5rem;
+}
+
+.setup-steps li {
+    padding: 0.5rem 0;
+    line-height: 1.6;
+}
+
+.setup-steps code {
     background: rgba(0, 170, 255, 0.1);
     padding: 3px 8px;
     border-radius: 5px;
-    color: #00AAFF;
-}
-
-/* =============================================
-   CANVAS ANIMATION
-   ============================================= */
-#canvasOne {
-    z-index: 0;
-}
-
-#jarvisHood {
-    position: relative;
-    z-index: 1;
-}
-
-/* =============================================
-   SIRIWAVE SECTION
-   ============================================= */
-.siriwave-container {
-    width: 100%;
-    max-width: 900px;
-    text-align: center;
-}
-
-#siri-container {
-    margin: 30px auto;
-    height: 200px;
-    border-radius: 15px;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(0, 170, 255, 0.2);
-    padding: 20px;
-}
-
-.siri-message {
-    font-size: 2rem;
-    font-weight: 300;
-    background: linear-gradient(90deg, #00AAFF 0%, #B803F0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: fadeInOut 3s ease-in-out infinite;
-}
-
-@keyframes fadeInOut {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 1; }
-}
-
-#siriwave {
-    background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
-}
-
-/* =============================================
-   SECTIONS
-   ============================================= */
-section {
-    min-height: 100vh;
-    padding: 50px 0;
-}
-
-#Start {
-    position: relative;
-    overflow: hidden;
-}
-
-#oval {
-    background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
-}
-
-#download {
-    background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
-}
-
-/* =============================================
-   TEXT ANIMATIONS
-   ============================================= */
-.text {
-    position: relative;
-    animation: fadeInUp 1s ease;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    color: var(--primary-blue);
 }
 
 /* =============================================
    FOOTER
    ============================================= */
-footer {
-    border-top: 1px solid rgba(0, 170, 255, 0.2);
-    padding: 30px 0;
+.footer {
+    padding: 3rem 0;
+    border-top: 1px solid var(--dark-border);
+    background: #000000;
 }
 
 /* =============================================
    RESPONSIVE
    ============================================= */
-@media (max-width: 768px) {
-    .svg-frame {
-        width: 300px;
-        height: 300px;
+@media (max-width: 992px) {
+    .hero-title {
+        font-size: 2.5rem;
     }
     
+    .svg-frame,
     svg {
-        width: 300px;
-        height: 300px;
+        width: 350px;
+        height: 350px;
     }
     
+    .stats-row {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
     .square {
         width: 300px;
         height: 300px;
     }
     
-    h1 {
-        font-size: 2.5rem !important;
+    #canvasOne {
+        width: 400px;
+        height: 300px;
     }
     
-    .btn-explore,
-    .btn-download {
-        display: block;
-        margin: 10px auto !important;
-        width: 80%;
+    .section-title {
+        font-size: 2rem;
     }
     
-    .code-block code {
-        font-size: 0.9rem;
+    .download-buttons {
+        flex-direction: column;
     }
 }
 
 /* =============================================
-   SCROLLBAR STYLING
+   SCROLLBAR
    ============================================= */
 ::-webkit-scrollbar {
     width: 10px;
@@ -484,7 +598,7 @@ footer {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #00AAFF, #B803F0);
+    background: var(--gradient-1);
     border-radius: 10px;
 }
 

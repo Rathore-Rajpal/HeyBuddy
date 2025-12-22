@@ -1,83 +1,58 @@
 // =============================================
-// BUDDY AI ASSISTANT - GITHUB PAGES
-// Using same animations as main app
+// PROFESSIONAL UI - BUDDY AI ASSISTANT
 // =============================================
 
 $(document).ready(function() {
-    // Initialize text animations
-    $('.text').textillate({
-        loop: true,
-        sync: true,
-        in: {
-            effect: "fadeInUp",
-            delay: 50
-        },
-        out: {
-            effect: "fadeOutUp",
-            delay: 50
-        }
-    });
-
     // Initialize SiriWave
-    if (document.getElementById('siri-container')) {
-        var siriWave = new SiriWave({
-            container: document.getElementById('siri-container'),
-            width: 880,
-            height: 200,
-            style: 'ios9',
-            amplitude: 1,
-            speed: 0.30,
-            autoStart: true,
-            color: '#00AAFF'
-        });
-    }
-
-    // Siri message animation
-    $('.siri-message').textillate({
-        loop: true,
-        sync: true,
-        in: {
-            effect: "fadeIn",
-            delay: 50
-        },
-        out: {
-            effect: "fadeOut",
-            delay: 50
-        }
-    });
-
-    // Smooth scroll for anchor links
-    $('a[href^="#"]').on('click', function(e) {
-        const href = $(this).attr('href');
-        if (href !== '#') {
-            e.preventDefault();
-            const target = $(href);
-            if (target.length) {
-                $('html, body').animate({
-                    scrollTop: target.offset().top - 50
-                }, 800);
-            }
-        }
-    });
-
-    // Canvas animation (similar to main app)
+    initSiriWave();
+    
+    // Initialize Canvas Animation
     initCanvas();
-
-    // Hide Start section after delay and show oval, then SiriWave
-    setTimeout(function() {
-        $('#Start').fadeOut(1000, function() {
-            $('#oval').fadeIn(1000);
-            setTimeout(function() {
-                $('#oval').fadeOut(1000, function() {
-                    $('#siriwave').fadeIn(1000);
-                });
-            }, 5000);
-        });
-    }, 4000);
+    
+    // Smooth scroll for navigation
+    setupSmoothScroll();
+    
+    // Navbar scroll effect
+    handleNavbarScroll();
+    
+    // Scroll animations
+    handleScrollAnimations();
 });
 
 // =============================================
-// CANVAS ANIMATION (From Main App)
+// SIRIWAVE INITIALIZATION
+// =============================================
+function initSiriWave() {
+    const container = document.getElementById('siri-container');
+    if (!container) return;
+    
+    try {
+        const siriWave = new SiriWave({
+            container: container,
+            width: container.offsetWidth || 600,
+            height: 160,
+            style: 'ios9',
+            amplitude: 1.5,
+            speed: 0.20,
+            autostart: true,
+            color: '#00AAFF',
+            frequency: 4,
+            cover: true
+        });
+        
+        // Update SiriWave on window resize
+        window.addEventListener('resize', function() {
+            const newWidth = container.offsetWidth || 600;
+            siriWave.setSpeed(0.20);
+            siriWave.setAmplitude(1.5);
+        });
+    } catch (error) {
+        console.log('SiriWave library not loaded yet');
+    }
+}
+
+// =============================================
+// CANVAS PARTICLE ANIMATION
 // =============================================
 function initCanvas() {
     const canvas = document.getElementById('canvasOne');
@@ -88,24 +63,24 @@ function initCanvas() {
     const height = canvas.height;
     
     let particles = [];
-    const particleCount = 100;
+    const particleCount = 80;
     
     // Create particles
     for (let i = 0; i < particleCount; i++) {
         particles.push({
             x: Math.random() * width,
             y: Math.random() * height,
-            radius: Math.random() * 2,
+            radius: Math.random() * 2 + 0.5,
             vx: (Math.random() - 0.5) * 0.5,
             vy: (Math.random() - 0.5) * 0.5,
             color: Math.random() > 0.5 ? '#00AAFF' : '#B803F0'
         });
     }
     
-    function drawParticles() {
+    function animate() {
         ctx.clearRect(0, 0, width, height);
         
-        particles.forEach(particle => {
+        particles.forEach((particle, i) => {
             // Update position
             particle.x += particle.vx;
             particle.y += particle.vy;
@@ -121,26 +96,116 @@ function initCanvas() {
             ctx.fill();
             
             // Draw connections
-            particles.forEach(otherParticle => {
+            particles.slice(i + 1).forEach(otherParticle => {
                 const dx = particle.x - otherParticle.x;
                 const dy = particle.y - otherParticle.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
                 
-                if (distance < 100) {
+                if (distance < 120) {
                     ctx.beginPath();
                     ctx.moveTo(particle.x, particle.y);
                     ctx.lineTo(otherParticle.x, otherParticle.y);
-                    ctx.strokeStyle = `rgba(0, 170, 255, ${1 - distance / 100})`;
+                    ctx.strokeStyle = `rgba(0, 170, 255, ${(1 - distance / 120) * 0.3})`;
                     ctx.lineWidth = 0.5;
                     ctx.stroke();
                 }
             });
         });
         
-        requestAnimationFrame(drawParticles);
+        requestAnimationFrame(animate);
     }
     
-    drawParticles();
+    animate();
+}
+
+// =============================================
+// SMOOTH SCROLL
+// =============================================
+function setupSmoothScroll() {
+    $('a[href^="#"]').on('click', function(e) {
+        const href = $(this).attr('href');
+        if (href === '#' || href === '#!') return;
+        
+        e.preventDefault();
+        const target = $(href);
+        
+        if (target.length) {
+            const offsetTop = target.offset().top - 70;
+            
+            $('html, body').animate({
+                scrollTop: offsetTop
+            }, 800);
+            
+            // Update active nav link
+            $('.nav-link').removeClass('active');
+            $(this).addClass('active');
+            
+            // Close mobile menu if open
+            const navbarCollapse = $('.navbar-collapse');
+            if (navbarCollapse.hasClass('show')) {
+                $('.navbar-toggler').click();
+            }
+        }
+    });
+}
+
+// =============================================
+// NAVBAR SCROLL EFFECT
+// =============================================
+function handleNavbarScroll() {
+    const navbar = $('.navbar');
+    
+    $(window).on('scroll', function() {
+        if ($(window).scrollTop() > 50) {
+            navbar.addClass('navbar-scrolled');
+        } else {
+            navbar.removeClass('navbar-scrolled');
+        }
+        
+        // Update active nav based on scroll position
+        updateActiveNav();
+    });
+}
+
+function updateActiveNav() {
+    const scrollPos = $(window).scrollTop() + 100;
+    
+    $('section').each(function() {
+        const section = $(this);
+        const sectionTop = section.offset().top;
+        const sectionBottom = sectionTop + section.outerHeight();
+        const sectionId = section.attr('id');
+        
+        if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+            $('.nav-link').removeClass('active');
+            $(`.nav-link[href="#${sectionId}"]`).addClass('active');
+        }
+    });
+}
+
+// =============================================
+// SCROLL ANIMATIONS
+// =============================================
+function handleScrollAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    // Observe feature cards
+    document.querySelectorAll('.feature-card').forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = `all 0.6s ease ${index * 0.1}s`;
+        observer.observe(card);
+    });
 }
 
 // =============================================
@@ -155,57 +220,30 @@ function copyCode(button) {
         button.innerHTML = '<i class="fas fa-check"></i> Copied!';
         button.style.background = '#00FF88';
         button.style.borderColor = '#00FF88';
+        button.style.color = '#000';
         
         setTimeout(() => {
             button.innerHTML = originalHTML;
             button.style.background = '';
             button.style.borderColor = '';
+            button.style.color = '';
         }, 2000);
     }).catch(err => {
         console.error('Failed to copy:', err);
-        alert('Failed to copy. Please select and copy manually.');
     });
 }
 
 // =============================================
-// FEATURE BOX HOVER EFFECTS
+// FEATURE CARD HOVER EFFECTS
 // =============================================
-$('.feature-box').hover(
+$('.feature-card').hover(
     function() {
-        $(this).find('i').addClass('animate__animated animate__bounce');
+        $(this).find('.feature-icon').addClass('animate__animated animate__pulse');
     },
     function() {
-        $(this).find('i').removeClass('animate__animated animate__bounce');
+        $(this).find('.feature-icon').removeClass('animate__animated animate__pulse');
     }
 );
-
-// =============================================
-// SCROLL REVEAL ANIMATIONS
-// =============================================
-function revealOnScroll() {
-    const reveals = document.querySelectorAll('.feature-box, .setup-step');
-    
-    reveals.forEach(element => {
-        const windowHeight = window.innerHeight;
-        const elementTop = element.getBoundingClientRect().top;
-        const elementVisible = 150;
-        
-        if (elementTop < windowHeight - elementVisible) {
-            element.style.opacity = '1';
-            element.style.transform = 'translateY(0)';
-        }
-    });
-}
-
-// Set initial state
-document.querySelectorAll('.feature-box, .setup-step').forEach(element => {
-    element.style.opacity = '0';
-    element.style.transform = 'translateY(30px)';
-    element.style.transition = 'all 0.6s ease';
-});
-
-window.addEventListener('scroll', revealOnScroll);
-revealOnScroll(); // Initial check
 
 // =============================================
 // CONSOLE MESSAGE
