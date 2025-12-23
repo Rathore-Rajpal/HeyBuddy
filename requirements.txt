@@ -22,6 +22,8 @@ hugchat==0.4.0
 requests==2.31.0
 python-dotenv==1.0.0
 Pillow==10.1.0
+groq==1.0.0
+huggingface_hub==0.34.0
 
 # Audio (optional, for wake word)
 pyaudio==0.2.14

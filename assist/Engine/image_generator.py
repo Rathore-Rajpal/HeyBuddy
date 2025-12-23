@@ -2,53 +2,43 @@ import requests
 import os
 from PIL import Image
 from io import BytesIO
-from dotenv import load_dotenv
+import urllib.parse
 
-
-# Load environment variables from .env file in root directory
-root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-load_dotenv(os.path.join(root_dir, ".env"))
-
-# API configuration
-API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
-api_key = os.getenv("HuggingFaceApiKey")
-if not api_key:
-    raise ValueError("API key not found in .env file")
-
-headers = {"Authorization": f"Bearer {api_key}"}
-
-# Function to send a prompt to Hugging Face API and generate images
+# Function to send a prompt to Pollinations.ai and generate images (FREE, no API key needed)
 def generate_image(prompt: str, output_path=None):
 
     folder_path = r"assist/Engine/Data"
     os.makedirs(folder_path, exist_ok=True)
 
     if output_path is None:
-        output_path = os.path.join(folder_path, f"{prompt.replace(' ', '_')}.jpg")
-    
-    payload = {
-        "inputs": prompt,
-        "options": {"wait_for_model": True}  # Wait for the model to be ready if it isn't already
-    }
+        output_path = os.path.join(folder_path, f"{prompt.replace(' ', '_')[:50]}.jpg")
     
     print(f"Generating image for prompt: '{prompt}'...")
 
-    # Send the request to Hugging Face API
-    response = requests.post(API_URL, headers=headers, json=payload)
-    
-    if response.status_code != 200:
-        raise Exception(f"Failed to generate image: {response.status_code}, {response.text}")
-    
-    # Load image data from the response
-    image_bytes = BytesIO(response.content)
-    image = Image.open(image_bytes)
-    
-    # Save the generated image
-    image.save(output_path)
-    print(f"Image saved as {output_path}")
+    try:
+        # Pollinations.ai - Free AI image generation API
+        # Encode prompt for URL
+        encoded_prompt = urllib.parse.quote(prompt)
+        api_url = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=1024&height=1024&nologo=true"
+        
+        # Get the image
+        response = requests.get(api_url, timeout=30)
+        
+        if response.status_code != 200:
+            raise Exception(f"Failed to generate image: {response.status_code}")
+        
+        # Load image from response
+        image = Image.open(BytesIO(response.content))
+        
+        # Save the generated image
+        image.save(output_path)
+        print(f"Image saved as {output_path}")
 
-    # Open the generated image
-    image.show()
+        # Open the generated image
+        image.show()
+        
+    except Exception as e:
+        raise Exception(f"Image generation failed: {str(e)}")
     
 
 

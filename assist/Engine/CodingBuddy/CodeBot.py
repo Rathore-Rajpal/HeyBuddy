@@ -1,39 +1,48 @@
-import requests
 import os
 from dotenv import load_dotenv
+from groq import Groq
 
 # Load environment variables from .env file in root directory
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 load_dotenv(os.path.join(root_dir, ".env"))
 
-# API configuration for code generation model (using BigCode's StarCoder)
-CODE_API_URL = "https://api-inference.huggingface.co/models/bigcode/starcoder"
-api_key = os.getenv("HuggingFaceApiKey")
+# API configuration for code generation
+api_key = os.getenv("groq_api_key")
 if not api_key:
-    raise ValueError("API key not found in .env file")
+    raise ValueError("Groq API key not found in .env file")
 
-headers = {"Authorization": f"Bearer {api_key}"}
+# Initialize Groq client
+client = Groq(api_key=api_key)
 
 def generate_code(task_prompt: str):
-    payload = {
-        "inputs": f"<fim_prefix># Python\n# {task_prompt}\n<fim_suffix>\n<fim_middle>",
-        "parameters": {
-            "temperature": 0.9,
-            "max_new_tokens": 256,
-            "return_full_text": False
-        }
-    }
-
     print(f"Generating code for prompt: '{task_prompt}'...")
-
-    response = requests.post(CODE_API_URL, headers=headers, json=payload)
     
-    if response.status_code != 200:
-        raise Exception(f"Code generation failed: {response.status_code}, {response.text}")
-
-    generated_code = response.json()[0]['generated_text']
-    
-    # Post-processing to clean up the output
-    generated_code = generated_code.split("<|endoftext|>")[0].strip()
-    
-    return generated_code  # Return the generated code instead of saving to a file
+    try:
+        # Use Groq's chat completion with code-focused model
+        response = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are an expert Python programmer. Generate clean, well-commented Python code. Return only the code without explanations."
+                },
+                {
+                    "role": "user",
+                    "content": f"Write Python code for: {task_prompt}"
+                }
+            ],
+            model="llama-3.3-70b-versatile",  # Great for code generation
+            temperature=0.5,
+            max_tokens=512
+        )
+        
+        generated_code = response.choices[0].message.content
+        
+        # Clean up markdown code blocks if present
+        if "```python" in generated_code:
+            generated_code = generated_code.split("```python")[1].split("```")[0].strip()
+        elif "```" in generated_code:
+            generated_code = generated_code.split("```")[1].split("```")[0].strip()
+        
+        return generated_code
+    except Exception as e:
+        raise Exception(f"Code generation failed: {str(e)}")

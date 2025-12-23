@@ -2,22 +2,10 @@ import os
 import requests
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from dotenv import load_dotenv
 from PIL import Image
 from io import BytesIO
 import base64
-
-# Load environment variables from .env file in root directory
-root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
-load_dotenv(os.path.join(root_dir, ".env"))
-
-# API configuration
-API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
-api_key = os.getenv("HuggingFaceApiKey")
-if not api_key:
-    raise ValueError("API key not found in .env file")
-
-headers = {"Authorization": f"Bearer {api_key}"}
+import urllib.parse
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -30,19 +18,20 @@ def generate_image():
     if not prompt:
         return jsonify({"error": "No prompt provided"}), 400
 
-    payload = {
-        "inputs": prompt,
-        "options": {"wait_for_model": True}
-    }
-
-    response = requests.post(API_URL, headers=headers, json=payload)
-
-    if response.status_code != 200:
-        return jsonify({"error": "Failed to generate image"}), response.status_code
-
-    # Load image data from the response
-    image_bytes = BytesIO(response.content)
-    image = Image.open(image_bytes)
+    try:
+        # Pollinations.ai - Free AI image generation API (no key needed)
+        encoded_prompt = urllib.parse.quote(prompt)
+        api_url = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=1024&height=1024&nologo=true"
+        
+        response = requests.get(api_url, timeout=30)
+        
+        if response.status_code != 200:
+            return jsonify({"error": "Failed to generate image"}), response.status_code
+        
+        # Load image from response
+        image = Image.open(BytesIO(response.content))
+    except Exception as e:
+        return jsonify({"error": f"Failed to generate image: {str(e)}"}), 500
 
     # Convert image to base64
     buffered = BytesIO()

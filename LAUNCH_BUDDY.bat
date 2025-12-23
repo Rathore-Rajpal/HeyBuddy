@@ -1,3 +1,4 @@
 @echo off
 cd /d "%~dp0"
-start "" ".\start.bat"
+call envjarvis\Scripts\activate.bat
+python main.py
