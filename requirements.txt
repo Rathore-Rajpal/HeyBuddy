@@ -27,7 +27,7 @@ huggingface_hub==0.34.0
 
 # Audio (optional, for wake word)
 pyaudio==0.2.14
-pvporcupine==3.0.2
+pvporcupine==4.0.1
 
 # Additional utilities
 numpy==1.26.2

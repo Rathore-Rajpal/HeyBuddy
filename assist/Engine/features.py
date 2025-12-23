@@ -430,6 +430,97 @@ def open_shortest_route(query):
         speak(f"Opening shortest route from {source} to {destination} on Google Maps.")
 
 
+# =============================================
+# WAKE WORD DETECTION (Porcupine)
+# =============================================
+def listen_for_wake_word(timeout=10):
+    """
+    Listen for the 'Hey Buddy' wake word using Picovoice Porcupine.
+    Returns True when wake word is detected, False on timeout.
+    
+    Args:
+        timeout: Time in seconds to listen for wake word (default: 10 seconds)
+    """
+    from dotenv import load_dotenv
+    import time
+    load_dotenv()
+    
+    access_key = os.getenv('PORCUPINE_API_KEY')
+    if not access_key:
+        print("⚠ Porcupine API key not found in .env file")
+        return False
+    
+    # Path to the custom wake word model
+    keyword_path = os.path.join(os.path.dirname(__file__), "..", "..", "Hey-Buddy_en_windows_v4_0_0", "Hey-Buddy_en_windows_v4_0_0.ppn")
+    
+    if not os.path.exists(keyword_path):
+        print(f"⚠ Wake word model not found at: {keyword_path}")
+        print("  Using built-in 'porcupine' keyword instead")
+        keyword_path = None  # Use built-in keyword
+    
+    porcupine = None
+    audio_stream = None
+    
+    try:
+        # Create Porcupine instance
+        if keyword_path:
+            porcupine = pvporcupine.create(
+                access_key=access_key,
+                keyword_paths=[keyword_path]
+            )
+            print("🎤 Using custom 'Hey Buddy' model")
+        else:
+            porcupine = pvporcupine.create(
+                access_key=access_key,
+                keywords=['porcupine']  # Built-in keyword
+            )
+            print("🎤 Using built-in 'porcupine' keyword")
+        
+        # Create audio stream
+        pa = pyaudio.PyAudio()
+        audio_stream = pa.open(
+            rate=porcupine.sample_rate,
+            channels=1,
+            format=pyaudio.paInt16,
+            input=True,
+            frames_per_buffer=porcupine.frame_length
+        )
+        
+        print(f"🎤 Listening for {timeout} seconds...")
+        print("   Say 'Hey Buddy' clearly...")
+        
+        start_time = time.time()
+        
+        while (time.time() - start_time) < timeout:
+            try:
+                pcm = audio_stream.read(porcupine.frame_length)
+                pcm = struct.unpack_from("h" * porcupine.frame_length, pcm)
+                
+                keyword_index = porcupine.process(pcm)
+                
+                if keyword_index >= 0:
+                    print("✓ Wake word detected!")
+                    return True
+            except Exception as read_error:
+                print(f"⚠ Audio read error: {read_error}")
+                continue
+        
+        print(f"⏱ Timeout - wake word not detected within {timeout} seconds")
+        return False
+                
+    except Exception as e:
+        print(f"✗ Error in wake word detection: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+    finally:
+        if audio_stream is not None:
+            audio_stream.stop_stream()
+            audio_stream.close()
+        if porcupine is not None:
+            porcupine.delete()
+
+
 
 
 

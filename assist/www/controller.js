@@ -10,6 +10,19 @@ $(document).ready(function () {
         $('.siri-message').textillate('start');
 
     }
+    
+    // Show prominent listening window
+    eel.expose(showListeningWindow)
+    function showListeningWindow(message) {
+        // Update the message with listening status
+        $(".siri-message li").text(message);
+        $('.siri-message').textillate('start');
+        
+        // Ensure siriwave is visible
+        $("#oval").attr("hidden", true);
+        $("#siriwave").attr("hidden", false);
+    }
+    
     // Display hood
     eel.expose(ShowHood)
     function ShowHood() {

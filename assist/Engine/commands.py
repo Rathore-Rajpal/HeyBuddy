@@ -48,11 +48,32 @@ def takecommand():
 
 @eel.expose
 def allCommands(message=1):
+    # Check for wake word first if using voice input
     if message == 1:
+        # Listen for wake word "Hey Buddy"
+        from assist.Engine.features import listen_for_wake_word
+        print("🎤 Listening for wake word 'Hey Buddy'...")
+        
+        # Show listening window with wave animation
+        listening_msg = "🎤 Listening for 'Hey Buddy'...\nSpeak clearly!"
+        eel.showListeningWindow(listening_msg)
+        
+        # Listen for up to 5 seconds
+        if not listen_for_wake_word(timeout=5):
+            print("⚠ Wake word not detected. Please say 'Hey Buddy' first.")
+            eel.DisplayMessage("⚠ Wake word not detected. Try again!")
+            speak("Wake word not detected. Please say Hey Buddy to activate.")
+            return
+        
+        speak("Wake word detected! Listening for command...")
+        eel.DisplayMessage("✓ Wake word detected!\nReady for command...")
+        
+        # Now listen for the actual command
         query = takecommand()
         print(f"Query received: {query}")  # Debugging statement
         eel.senderText(query)
     else:
+        # If message is provided directly (text input), skip wake word check
         query = message
         eel.senderText(query)
         
