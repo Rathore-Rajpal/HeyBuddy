@@ -182,33 +182,47 @@ def whatsApp(mobile_no, message, flag, name):
 
 
 def chatBot(query):
-    global stop_flag
-    user_input = query.lower()
-    
-    try:
-        # Initialize chatbot
-        chatbot = hugchat.ChatBot(cookie_path="assist\\Engine\\cookies.json")
-        conv_id = chatbot.new_conversation()
-        chatbot.change_conversation(conv_id)
+    """Handle general AI chat using Groq LLM (replaces legacy HuggingFace chat)."""
+    from dotenv import load_dotenv
+    load_dotenv()
 
-        # Get response
-        response = chatbot.chat(user_input)
-        
-        # Extract text from Message object
-        cleaned_response = response.text.strip()
-        
-        # Directly update UI before returning
-        eel.updateResponseContent(cleaned_response)
-        print(cleaned_response)
-        speak(cleaned_response)
-        
-        return ""  # Return empty string since we're updating UI directly
+    api_key = os.getenv("groq_api_key")
+    if not api_key:
+        msg = "AI Bot error: Groq API key missing. Set groq_api_key in .env"
+        eel.updateResponseContent(msg)
+        speak(msg)
+        return msg
+
+    try:
+        from groq import Groq
+        client = Groq(api_key=api_key)
+
+        system_prompt = (
+            "You are Buddy, a concise, helpful AI assistant. "
+            "Respond clearly and briefly; prefer actionable answers."
+        )
+
+        completion = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": query},
+            ],
+            max_tokens=512,
+            temperature=0.7,
+        )
+
+        answer = completion.choices[0].message.content.strip()
+        eel.updateResponseContent(answer)
+        print(answer)
+        speak(answer)
+        return "ai_bot_handled"
 
     except Exception as e:
-        error_msg = f"Error: {str(e)}"
-        speak(error_msg)
+        error_msg = f"AI Bot error: {str(e)}"
         eel.updateResponseContent(error_msg)
-        return ""
+        speak(error_msg)
+        return error_msg
         
 def google_search(query):
      search_term = query.replace("search", "").replace("on google", "").replace("on internet", "").strip()
@@ -433,7 +447,7 @@ def open_shortest_route(query):
 # =============================================
 # WAKE WORD DETECTION (Porcupine)
 # =============================================
-def listen_for_wake_word(timeout=10):
+def listen_for_wake_word(timeout=10, show_logs=True):
     """
     Listen for the 'Hey Buddy' wake word using Picovoice Porcupine.
     Returns True when wake word is detected, False on timeout.
@@ -447,15 +461,17 @@ def listen_for_wake_word(timeout=10):
     
     access_key = os.getenv('PORCUPINE_API_KEY')
     if not access_key:
-        print("⚠ Porcupine API key not found in .env file")
+        if show_logs:
+            print("⚠ Porcupine API key not found in .env file")
         return False
     
     # Path to the custom wake word model
     keyword_path = os.path.join(os.path.dirname(__file__), "..", "..", "Hey-Buddy_en_windows_v4_0_0", "Hey-Buddy_en_windows_v4_0_0.ppn")
     
     if not os.path.exists(keyword_path):
-        print(f"⚠ Wake word model not found at: {keyword_path}")
-        print("  Using built-in 'porcupine' keyword instead")
+        if show_logs:
+            print(f"⚠ Wake word model not found at: {keyword_path}")
+            print("  Using built-in 'porcupine' keyword instead")
         keyword_path = None  # Use built-in keyword
     
     porcupine = None
@@ -468,13 +484,15 @@ def listen_for_wake_word(timeout=10):
                 access_key=access_key,
                 keyword_paths=[keyword_path]
             )
-            print("🎤 Using custom 'Hey Buddy' model")
+            if show_logs:
+                print("🎤 Using custom 'Hey Buddy' model")
         else:
             porcupine = pvporcupine.create(
                 access_key=access_key,
                 keywords=['porcupine']  # Built-in keyword
             )
-            print("🎤 Using built-in 'porcupine' keyword")
+            if show_logs:
+                print("🎤 Using built-in 'porcupine' keyword")
         
         # Create audio stream
         pa = pyaudio.PyAudio()
@@ -486,12 +504,18 @@ def listen_for_wake_word(timeout=10):
             frames_per_buffer=porcupine.frame_length
         )
         
-        print(f"🎤 Listening for {timeout} seconds...")
-        print("   Say 'Hey Buddy' clearly...")
+        if show_logs:
+            print(f"🎤 Listening for {timeout} seconds...")
+            print("   Say 'Hey Buddy' clearly...")
         
         start_time = time.time()
-        
-        while (time.time() - start_time) < timeout:
+
+        def within_time_limit():
+            if timeout is None or timeout <= 0:
+                return True  # run indefinitely
+            return (time.time() - start_time) < timeout
+
+        while within_time_limit():
             try:
                 pcm = audio_stream.read(porcupine.frame_length)
                 pcm = struct.unpack_from("h" * porcupine.frame_length, pcm)
@@ -499,19 +523,23 @@ def listen_for_wake_word(timeout=10):
                 keyword_index = porcupine.process(pcm)
                 
                 if keyword_index >= 0:
-                    print("✓ Wake word detected!")
+                    if show_logs:
+                        print("✓ Wake word detected!")
                     return True
             except Exception as read_error:
-                print(f"⚠ Audio read error: {read_error}")
+                if show_logs:
+                    print(f"⚠ Audio read error: {read_error}")
                 continue
         
-        print(f"⏱ Timeout - wake word not detected within {timeout} seconds")
+        if show_logs:
+            print(f"⏱ Timeout - wake word not detected within {timeout} seconds")
         return False
                 
     except Exception as e:
-        print(f"✗ Error in wake word detection: {str(e)}")
-        import traceback
-        traceback.print_exc()
+        if show_logs:
+            print(f"✗ Error in wake word detection: {str(e)}")
+            import traceback
+            traceback.print_exc()
         return False
     finally:
         if audio_stream is not None:

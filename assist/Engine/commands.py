@@ -48,32 +48,20 @@ def takecommand():
 
 @eel.expose
 def allCommands(message=1):
-    # Check for wake word first if using voice input
+    # Voice path: listen immediately when mic is clicked
     if message == 1:
-        # Listen for wake word "Hey Buddy"
-        from assist.Engine.features import listen_for_wake_word
-        print("🎤 Listening for wake word 'Hey Buddy'...")
-        
-        # Show listening window with wave animation
-        listening_msg = "🎤 Listening for 'Hey Buddy'...\nSpeak clearly!"
-        eel.showListeningWindow(listening_msg)
-        
-        # Listen for up to 5 seconds
-        if not listen_for_wake_word(timeout=5):
-            print("⚠ Wake word not detected. Please say 'Hey Buddy' first.")
-            eel.DisplayMessage("⚠ Wake word not detected. Try again!")
-            speak("Wake word not detected. Please say Hey Buddy to activate.")
-            return
-        
-        speak("Wake word detected! Listening for command...")
-        eel.DisplayMessage("✓ Wake word detected!\nReady for command...")
-        
-        # Now listen for the actual command
-        query = takecommand()
+        eel.DisplayMessage("🎤 Listening...")
+        try:
+            query = takecommand()
+        except Exception as mic_err:
+            err_msg = f"Microphone error: {mic_err}"
+            print(err_msg)
+            eel.DisplayMessage(err_msg)
+            return err_msg
         print(f"Query received: {query}")  # Debugging statement
         eel.senderText(query)
     else:
-        # If message is provided directly (text input), skip wake word check
+        # Text path: direct message from chat box
         query = message
         eel.senderText(query)
         
@@ -270,12 +258,22 @@ def allCommands(message=1):
             if "yes" in confirmation or "sure" in confirmation or "okay" in confirmation:
                 eel.DisplayMessage("Handling 'AI Bot' command")
                 print("Handling 'AI Bot' command")
-                from assist.Engine.features import chatBot
-                # Direct call pattern like codeBot
-                chatBot(query)
+                try:
+                    from assist.Engine.features import chatBot
+                    # Direct call pattern like codeBot
+                    chatBot(query)
+                    return "ai_bot_handled"
+                except Exception as bot_error:
+                    err_msg = f"AI Bot error: {bot_error}"
+                    print(err_msg)
+                    eel.DisplayMessage(err_msg)
+                    return "ai_bot_error"
             else:
                 speak("Okay, let me know if you need anything else.")
     except Exception as e:
         print(f"Error in allCommands: {e}")  # Detailed error message for debugging
+
+    # Always return a value so eel has something to send back
+    return "handled"
 
     eel.ShowHood()  # Ensure this is called even if an error occurs

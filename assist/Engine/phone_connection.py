@@ -26,14 +26,18 @@ def call_on_mobile(query):
         time.sleep(1)
         autogui.write("phone link")
         autogui.press('enter')
-        time.sleep(4)
+        time.sleep(20)
         autogui.click(500, 90,duration=1)
-        for i in range(3):
+        time.sleep(5)
+        for i in range(4):
+            time.sleep(2)
             autogui.press('tab')
+        time.sleep(2)
         autogui.write(name)
-        time.sleep(1)
+        time.sleep(2)
         autogui.press('enter')
         for i in range(13):
+            time.sleep(5)
             autogui.press('tab')
         time.sleep(1)
         speak(f"Calling {name} on your phone")

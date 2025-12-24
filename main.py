@@ -2,6 +2,7 @@ import os
 import eel
 import time
 import json
+import threading
 from assist.Engine.features import *
 from assist.Engine.commands import *
 from assist.Engine.auth import recoganize
@@ -27,6 +28,26 @@ def start():
     # Initialize eel with the correct path to the 'www' folder
     eel.init("assist/www")
     playAssistantSound()
+
+    # Background wake-word listener: runs continuously and triggers commands when "Hey Buddy" is heard
+    def wake_word_listener():
+        from assist.Engine.features import listen_for_wake_word
+        from assist.Engine.commands import allCommands
+        while True:
+            try:
+                detected = listen_for_wake_word(timeout=0, show_logs=False)  # 0 = run indefinitely per cycle
+                if detected:
+                    # Trigger the exact same flow as mic-click from JS side
+                    try:
+                        eel.startListeningUI()
+                    except Exception as ui_err:
+                        print(f"Wake-word UI error: {ui_err}")
+            except Exception as wake_err:
+                print(f"Wake-word listener error: {wake_err}")
+            # Brief pause to avoid tight loop when timeouts or errors occur
+            time.sleep(0.2)
+
+    threading.Thread(target=wake_word_listener, daemon=True).start()
     
     @eel.expose
     def getFaceAuthStatus():

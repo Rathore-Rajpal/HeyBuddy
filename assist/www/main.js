@@ -56,6 +56,15 @@ $(document).ready(function () {
     }
     document.addEventListener('keyup', doc_keyUp, false);
 
+    // Expose a unified listener starter for wake-word activation
+    eel.expose(startListeningUI);
+    function startListeningUI() {
+        eel.playMicSound();
+        $("#oval").attr("hidden", true);
+        $("#siriwave").attr("hidden", false);
+        eel.allCommands();
+    }
+
     function PlayAssistant(message) {
 
         if (message != "") {
