@@ -273,7 +273,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Rajpal Singh Rathore**
 - GitHub: [@Rathore-Rajpal](https://github.com/Rathore-Rajpal)
-- Project Link: [https://github.com/Rathore-Rajpal/HeyBuddy](https://github.com/Rathore-Rajpal/HeyBuddy)
+- Project Link: [https://github.com/Rathore-Rajpal/HeyBuddy](https://heybuddy.rathorerajpal.live)
 
 ---
 
