@@ -273,7 +273,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Rajpal Singh Rathore**
 - GitHub: [@Rathore-Rajpal](https://github.com/Rathore-Rajpal)
-- Project Link: [https://github.com/heybuddy.rathorerajpal.live](https://heybuddy.rathorerajpal.live)
+- Project Link: [https://heybuddy.rathorerajpal.live](https://heybuddy.rathorerajpal.live)
 
 ---
 
