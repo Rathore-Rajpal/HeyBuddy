@@ -208,7 +208,6 @@ VirtualMouseProject/
 ### Quick Feature Preview
 
 ```
-✨ Say "Hey Buddy" to activate
 🎵 "Play [song name] on Spotify"
 📧 "Send email to [contact]"
 🌐 "Search Google for [query]"

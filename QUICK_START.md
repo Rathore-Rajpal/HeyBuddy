@@ -45,7 +45,7 @@ Double-click `start.bat`
 1. Run `start.bat`
 2. Complete face auth (or press ESC to skip)
 3. Browser window opens automatically
-4. Say "Hey Buddy" or click the mic button
+4. Click the mic button
 5. Give your command
 
 ### Quick Commands to Try

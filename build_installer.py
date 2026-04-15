@@ -59,8 +59,6 @@ hiddenimports = [
     'Pillow',
     'PyAutoGUI',
     'wikipedia',
-    'pvporcupine',
-    'pyaudio',
     'sounddevice',
     'google.generativeai',
     'dotenv',
@@ -153,7 +151,7 @@ def create_readme():
 
 ## Features
 
-- 🎤 Voice-activated assistant with wake word "Buddy"
+- 🎤 Voice-command assistant
 - 🖱️ Air gesture mouse control
 - 🎵 Spotify integration
 - 🤖 AI image generation
@@ -186,7 +184,7 @@ You can add these during first-time setup or later in the .env file.
 **Voice commands not recognized:**
 - Check microphone permissions
 - Ensure microphone is set as default in Windows
-- Say the wake word "Buddy" clearly
+- Click the mic button in the app and speak clearly
 
 **Spotify not working:**
 - Verify API credentials in .env file
