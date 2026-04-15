@@ -2,6 +2,7 @@ import subprocess
 import sys
 import time
 import webbrowser
+import re
 import dateparser
 import keyboard
 import pyttsx3
@@ -10,6 +11,39 @@ import eel
 import os
 import assist.Engine.spotify as sp
 import pyautogui as auto
+
+
+def normalize_query(text):
+    """Normalize speech/text input to improve intent detection."""
+    if not text:
+        return ""
+
+    normalized = text.lower().strip()
+    normalized = re.sub(r"[^a-z0-9\s]", " ", normalized)
+    normalized = re.sub(r"\s+", " ", normalized).strip()
+
+    replacements = {
+        "you tube": "youtube",
+        "whats app": "whatsapp",
+        "what s app": "whatsapp",
+        "watsapp": "whatsapp",
+        "whatsup": "whatsapp",
+        "spotfy": "spotify",
+        "gogle": "google",
+        "e mail": "email",
+        "note down": "take a note",
+        "remind me": "set a reminder",
+        "launch": "start",
+    }
+
+    for wrong, right in replacements.items():
+        normalized = normalized.replace(wrong, right)
+
+    return normalized
+
+
+def contains_any(text, keywords):
+    return any(keyword in text for keyword in keywords)
 
 @eel.expose
 def speak(text):
@@ -65,33 +99,39 @@ def allCommands(message=1):
         query = message
         eel.senderText(query)
         
+    query = normalize_query(query)
+
     try:
         # Handle Spotify command first if it matches the format "open {artist_name} on Spotify"
-        if "open" in query and "on spotify" in query:
+        if "spotify" in query and contains_any(query, ["open", "start", "play"]):
             print("Handling 'open artist on Spotify' command")
             token = sp.get_token()
             sp.handle_query(token, query)
         
+        elif contains_any(query, ["bye-bye", "bye bye", "goodbye"]):
+            speak("Terminating the assistant...")
+            auto.hotkey('alt','f4')
+
         # General "open" command
-        elif "open" in query:
+        elif contains_any(query, ["open", "run"]):
             print("Handling general 'open' command")
             from assist.Engine.features import openCommand
             openCommand(query)
         
-        elif "on youtube" in query:
-            if "search" in query:
+        elif "youtube" in query:
+            if contains_any(query, ["search", "find", "look up"]):
                 from assist.Engine.features import SearchYoutube
                 SearchYoutube(query)
             else:
                 from assist.Engine.features import PlayYoutube
                 PlayYoutube(query)
         
-        elif any(kw in query for kw in ["call", "make a call", "dial"]) and ("on my phone" in query or "on my iphone" in query):
+        elif contains_any(query, ["call", "make a call", "dial"]) and contains_any(query, ["on my phone", "on my iphone", "on phone", "on mobile"]):
             print("Handling phone call command")
             from assist.Engine.phone_connection import call_on_mobile
             call_on_mobile(query)
 
-        elif any(kw in query for kw in ["send a message", "text", "send message"]) and ("on my phone" in query or "on my iphone" in query):
+        elif contains_any(query, ["send a message", "text", "send message"]) and contains_any(query, ["on my phone", "on my iphone", "on phone", "on mobile"]):
             print("Handling phone message command")
             from assist.Engine.phone_connection import message_on_phone
             speak("What is the message ?")
@@ -99,7 +139,7 @@ def allCommands(message=1):
             message_on_phone(query,message)
 
         # Then handle WhatsApp commands (MOVED DOWN)
-        elif any(kw in query for kw in ["send message", "voice call", "video call", "send a message","call"]):
+        elif contains_any(query, ["send message", "voice call", "video call", "send a message", "call"]):
             print("Handling WhatsApp command")
             from assist.Engine.features import findContact, whatsApp
             flag = ""
@@ -125,8 +165,8 @@ def allCommands(message=1):
             else:
                 print("Contact not found!")
                 
-        elif "search" in query:
-            if "on google" in query or "on internet" in query:
+        elif contains_any(query, ["search", "find", "look up"]):
+            if contains_any(query, ["on google", "on internet", "on web", "google"]):
                 print("Handling 'search on Google' command")
                 from assist.Engine.features import google_search
                 google_search(query)
@@ -135,12 +175,12 @@ def allCommands(message=1):
                 from assist.Engine.searchingProduct import search_product
                 search_product(query)
         
-        elif "on spotify" in query or "play on spotify" in query:
+        elif "spotify" in query:
             print("Handling 'Spotify' command")
             token = sp.get_token()
             sp.handle_query(token, query)
         
-        elif "take a note" in query and "in file" not in query:
+        elif contains_any(query, ["take a note", "write a note", "make a note"]) and "in file" not in query:
             print("Handling 'take a note' command")
             speak("What would you like to note down?")
             note = takecommand()
@@ -151,7 +191,7 @@ def allCommands(message=1):
             else:
                 speak("I couldn't hear the note properly. Please try again.")
         
-        elif "take a note in file" in query or "write a note in file" in query:
+        elif contains_any(query, ["take a note in file", "write a note in file", "save a note in file"]):
             print("Handling 'take a note in file' command")
             speak("What would you like to note down?")
             note = takecommand()
@@ -162,7 +202,7 @@ def allCommands(message=1):
             else:
                 speak("I couldn't hear the note properly. Please try again.")
         
-        elif "some music" in query or "play music" in query:
+        elif contains_any(query, ["some music", "play music", "music"]):
             speak("Playing some music for you")
             print("Handling 'music play' command")
             sp.play_pause()
@@ -173,7 +213,7 @@ def allCommands(message=1):
             caputure_screenshot()
             speak("Screenshot captured sucessfully")
             
-        elif "set a reminder" in query:
+        elif contains_any(query, ["set a reminder", "set reminder", "reminder"]):
             from assist.Engine.features import set_reminder
             speak("Please tell me when you want to set the reminder.'.")
             reminder_input = takecommand()
@@ -190,19 +230,15 @@ def allCommands(message=1):
             else:
                 speak("Sorry, I couldn't understand the date and time. Please try again.")
                 
-        elif ("send a email" in query or "send email" in query or "send a mail" in query or "send an email" in query or "draft a mail" in query or "write an emai" in query or "write a mail" in query):
+        elif contains_any(query, ["send a email", "send email", "send a mail", "send an email", "draft a mail", "write an emai", "write a mail", "send mail", "email"]):
             from assist.Engine.features import send_email
             send_email(query)
             
-        elif "close" in query or "terminate" in query:
+        elif contains_any(query, ["close", "terminate", "quit"]):
             from assist.Engine.features import close_app
             close_app(query)
             
-        elif "bye-bye" in query.lower():
-            speak("Terminating the assistant...")
-            auto.hotkey('alt','f4')
-            
-        elif "generate image" in query or "generate an image" in query:
+        elif contains_any(query, ["generate image", "generate an image", "create image", "make image"]):
             from assist.Engine.image_generator import generate_image
             speak("What image you need to generate: ")
             prompt = takecommand()
@@ -214,15 +250,15 @@ def allCommands(message=1):
             from assist.Engine.searchingProduct import search_product
             search_product(query)
             
-        elif "write a code" in query or "generate a code" in query or "write the code" in query:
+        elif contains_any(query, ["write a code", "generate a code", "write the code", "create code", "code for"]):
             from assist.Engine.features import codeBot
             codeBot(query)
             
-        elif "shortest route" in query or "shortest distance" in query or "google maps" in query or "maps" in query or "distance" in query:
+        elif contains_any(query, ["shortest route", "shortest distance", "google maps", "maps", "distance", "directions", "route"]):
             from assist.Engine.features import open_shortest_route
             open_shortest_route(query)
         
-        elif "start image master" in query or "lauch image master" in query:
+        elif contains_any(query, ["start image master", "launch image master", "open image master"]):
             speak("Launching Image Master")
             eel.ShowHood()
             file_path = r'assist\Engine\ImageBot\index.html'
@@ -231,7 +267,7 @@ def allCommands(message=1):
             subprocess.Popen([python_interpreter, r'assist\Engine\ImageBot\app.py'], creationflags=subprocess.CREATE_NEW_CONSOLE)
             
             
-        elif "start code master" in query or "launch code master" in query:
+        elif contains_any(query, ["start code master", "launch code master", "open code master"]):
             speak("Launching Code Master")
             eel.ShowHood()
             file_path = r'assist\Engine\CodingBuddy\index.html'
@@ -239,37 +275,31 @@ def allCommands(message=1):
             python_interpreter = r'C:\VirtualMouseProject\envjarvis\Scripts\python.exe'
             subprocess.Popen([python_interpreter, r'assist\Engine\CodingBuddy\app.py'], creationflags=subprocess.CREATE_NEW_CONSOLE)
             
-        elif "start virtual mouse" in query or "launch virtual mouse" in query:
+        elif contains_any(query, ["start virtual mouse", "launch virtual mouse", "open virtual mouse"]):
             speak("Launching virtual mouse")
             eel.ShowHood()
             subprocess.run(['python','virtualMouse.py'])
 
             
-        elif "start virtual keyboard" in query or "launch virtual keyboard" in query:
+        elif contains_any(query, ["start virtual keyboard", "launch virtual keyboard", "open virtual keyboard"]):
             speak("Starting virtual keyboard")
             eel.ShowHood()
             subprocess.run(['python','virtual_ketboard.html.py'])
             
             
         else:
-            speak("This command is forwarded to AI bot, do you want to continue?")
-            confirmation = takecommand()
-            print(confirmation)
-            if "yes" in confirmation or "sure" in confirmation or "okay" in confirmation:
-                eel.DisplayMessage("Handling 'AI Bot' command")
-                print("Handling 'AI Bot' command")
-                try:
-                    from assist.Engine.features import chatBot
-                    # Direct call pattern like codeBot
-                    chatBot(query)
-                    return "ai_bot_handled"
-                except Exception as bot_error:
-                    err_msg = f"AI Bot error: {bot_error}"
-                    print(err_msg)
-                    eel.DisplayMessage(err_msg)
-                    return "ai_bot_error"
-            else:
-                speak("Okay, let me know if you need anything else.")
+            eel.DisplayMessage("Handling 'AI Bot' command")
+            print("Handling 'AI Bot' command")
+            try:
+                from assist.Engine.features import chatBot
+                # Unknown commands are now sent directly to AI bot.
+                chatBot(query)
+                return "ai_bot_handled"
+            except Exception as bot_error:
+                err_msg = f"AI Bot error: {bot_error}"
+                print(err_msg)
+                eel.DisplayMessage(err_msg)
+                return "ai_bot_error"
     except Exception as e:
         print(f"Error in allCommands: {e}")  # Detailed error message for debugging
 

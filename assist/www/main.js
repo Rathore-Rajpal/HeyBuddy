@@ -56,7 +56,7 @@ $(document).ready(function () {
     }
     document.addEventListener('keyup', doc_keyUp, false);
 
-    // Expose a unified listener starter for wake-word activation
+    // Expose a unified listener starter for mic activation
     eel.expose(startListeningUI);
     function startListeningUI() {
         eel.playMicSound();
@@ -169,7 +169,7 @@ $(document).ready(function () {
     $("#resetSettingsBtn").click(function () {
         if (confirm('Are you sure you want to reset all settings to default?')) {
             eel.resetSettings();
-            $("#faceAuthToggle").prop('checked', true);
+            $("#faceAuthToggle").prop('checked', false);
             const toast = new bootstrap.Toast(document.getElementById('responseToast'));
             document.querySelector('.toast-body').innerText = 'Settings reset to default!';
             toast.show();

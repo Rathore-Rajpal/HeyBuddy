@@ -32,8 +32,8 @@ def start():
         """Get current face auth status from config"""
         config = load_user_config()
         if config:
-            return config.get('face_auth_enabled', True)
-        return True
+            return config.get('face_auth_enabled', False)
+        return False
     
     @eel.expose
     def setFaceAuthStatus(enabled):
@@ -70,7 +70,7 @@ def start():
     def resetSettings():
         """Reset all settings to default"""
         config = {
-            'face_auth_enabled': True,
+            'face_auth_enabled': False,
             'setup_completed': True
         }
         if os.path.exists('config.json'):
@@ -91,7 +91,7 @@ def start():
          # ============================================
          # Load face auth setting from config
          config = load_user_config()
-         enable_face_auth = True  # Default to enabled
+         enable_face_auth = False  # Default to disabled
          
          if config and 'face_auth_enabled' in config:
              enable_face_auth = config['face_auth_enabled']

@@ -25,6 +25,7 @@ class SetupWizard:
         self.user_data = {
             "user_name": "",
             "face_trained": False,
+            "face_auth_enabled": False,
             "spotify_configured": False,
             "huggingface_configured": False,
             "setup_completed": False

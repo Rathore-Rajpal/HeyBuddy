@@ -1,5 +1,5 @@
 {
-    "face_auth_enabled": true,
+    "face_auth_enabled": false,
     "setup_completed": true,
     "user_name": "User"
 }
